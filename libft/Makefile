@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/23 09:39:28 by lafontai          #+#    #+#              #
-#    Updated: 2020/05/19 10:20:57 by lafontai         ###   ########.fr        #
+#    Updated: 2020/06/16 14:36:33 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ SRCS	= \
 			ft_striter.c \
 			ft_striteri.c \
 			ft_strjoin.c \
+			ft_joinfree.c \
 			ft_strlcat.c \
 			ft_strlcpy.c \
 			ft_strlen.c \

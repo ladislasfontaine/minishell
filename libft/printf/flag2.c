@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/06 08:00:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/05/06 08:01:50 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/16 14:24:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*flag_minus(t_arg *params, char *arg)
 	int		len;
 	char	*new;
 
-	len = params->length ? params->length : ft_strlen(arg);
+	len = params->length ? (unsigned int)params->length : ft_strlen(arg);
 	diff = params->flag_minus - len;
 	if (diff > 0)
 	{
@@ -48,7 +48,7 @@ char	*flag_width(t_arg *params, char *arg)
 	int		len;
 	char	*new;
 
-	len = params->length ? params->length : ft_strlen(arg);
+	len = params->length ? (unsigned int)params->length : ft_strlen(arg);
 	flag = (params->width > 0) ? params->width : params->mul;
 	if (flag - len > 0)
 	{

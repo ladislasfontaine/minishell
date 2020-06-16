@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/16 17:32:20 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/16 19:48:16 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <errno.h>
 #include "libft.h"
 #include "printf.h"
 
@@ -61,5 +62,16 @@ void	init_minishell(t_minishell *data);
 int		init_command(t_command **command, int sep, char *sub);
 void	del_command(void *element);
 void	reset_command(t_minishell *data);
+void	line_iteration(t_minishell *data);
+int		command_router(t_minishell *data, t_command *command);
+/* ECHO */
+/* CD */
+int		change_directory(char *path);
+/* PWD */
+void	print_cwd(void);
+/* EXPORT */
+/* UNSET */
+/* ENV */
+/* EXIT */
 
 #endif

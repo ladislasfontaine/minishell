@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/16 17:40:57 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/16 19:03:18 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ int		create_command(t_minishell *data, int start, int end)
 {
 	t_command	*command;
 	t_list		*new;
+	int			len;
 
 	command = NULL;
-	if (init_command(&command, data->separator, ft_substr(data->line, start, end - start)) == -1)
+	len = (end - start) < 0 ? 0 : (end - start);
+	if (init_command(&command, data->separator, ft_substr(data->line, start, len)) == -1)
 		return (-1);
 	new = ft_lstnew((void *)command);
 	ft_lstadd_back(&data->cmd, new);
@@ -67,7 +69,7 @@ int		line_split(t_minishell *data)
 		}
 		i++;
 	}
-	create_command(data, old_i, i);
+	create_command(data, old_i, i - 1);
 	return (0);
 }
 
@@ -110,6 +112,7 @@ void	set_prompt(t_minishell *data)
 		data->line = ft_strnew(1);
 		get_line(&data->line);
 		line_split(data);
+		line_iteration(data);
 		ft_lstiter(data->cmd, &print_cmd);
 		reset_command(data);
 	}

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_joinfree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:21:00 by memartin          #+#    #+#             */
-/*   Updated: 2020/06/16 14:37:34 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/16 14:58:01 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_joinfree(const char *s1, const char *s2)
+char		*ft_joinfree(char *s1, char *s2)
 {
 	char	*res;
 

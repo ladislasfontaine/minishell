@@ -6,12 +6,13 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/15 15:08:42 by lafontai          #+#    #+#              #
-#    Updated: 2020/06/16 10:56:11 by lafontai         ###   ########.fr        #
+#    Updated: 2020/06/16 17:25:33 by lafontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	= $(addprefix $(FOLDER), \
 			minishell.c \
+			init.c \
 			)
 
 OBJS	= $(SRCS:.c=.o)

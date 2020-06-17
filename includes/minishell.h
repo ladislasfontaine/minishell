@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 12:27:38 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/17 15:40:09 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include "libft.h"
 #include "printf.h"
 
-#define CMD_SIZE 512
+#define CMD_SIZE 5121
 #define NONE 0
 #define SEMI_COLON 1
 #define PIPE 2
@@ -51,7 +51,6 @@ typedef struct	s_minishell
 {
 	char	*line;
 	t_list	*env;
-	t_list	*local;
 	t_list	*cmd;
 	int		run;
 	int		separator;
@@ -78,8 +77,12 @@ int		print_cwd(void);
 /* UNSET */
 /* ENV */
 void	init_env(t_minishell *data, char **env);
+void	unset(t_minishell *data, char *arg);
+void	env(t_minishell *data);
 /* EXIT */
 void	exit_normal(t_minishell *data);
 void	exit_error(t_minishell *data);
 
+
+int		is_whitespace(char c);
 #endif

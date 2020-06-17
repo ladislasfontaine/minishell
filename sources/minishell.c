@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 09:35:53 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/17 10:50:40 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,14 @@ void	set_prompt(t_minishell *data)
 	}
 }
 
-int		main(void)
+int		main(int argc, char **argv, char **envp)
 {
 	t_minishell	data;
 
+	(void)argc;
+	(void)argv;
 	init_minishell(&data);
+	init_env(&data, envp);
 	set_prompt(&data);
 	return (0);
 }

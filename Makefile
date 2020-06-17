@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/15 15:08:42 by lafontai          #+#    #+#              #
-#    Updated: 2020/06/17 09:08:28 by lafontai         ###   ########.fr        #
+#    Updated: 2020/06/17 12:13:26 by lafontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,10 @@ SRCS	= $(addprefix $(FOLDER), \
 			init.c \
 			iteration.c \
 			parser.c \
+			env.c \
 			cd.c \
 			pwd.c \
+			exit.c \
 			)
 
 OBJS	= $(SRCS:.c=.o)

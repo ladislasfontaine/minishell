@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 16:09:21 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/16 17:32:10 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/17 12:26:09 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,6 @@ int		init_command(t_command **command, int sep, char *sub)
 	(*command)->d_quote = 0;
 	(*command)->chevron = 0;
 	return (0);
-}
-
-void	del_command(void *element)
-{
-	t_command	*temp;
-
-	temp = (t_command *)element;
-	if (temp->cmd)
-		free(temp->cmd);
 }
 
 void	reset_command(t_minishell *data)

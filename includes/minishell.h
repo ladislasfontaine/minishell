@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 09:22:02 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/17 12:27:38 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct	s_var
 {
 	char	*key;
 	char	*value;
+	int		local;
 }				t_var;
 
 typedef struct	s_command
@@ -61,6 +62,8 @@ typedef struct	s_minishell
 void	init_minishell(t_minishell *data);
 int		init_command(t_command **command, int sep, char *sub);
 void	del_command(void *element);
+void	del_variable(void *element);
+void	clear_all(t_minishell *data);
 void	reset_command(t_minishell *data);
 void	line_iteration(t_minishell *data);
 int		command_router(t_minishell *data, t_command *command);
@@ -74,6 +77,9 @@ int		print_cwd(void);
 /* EXPORT */
 /* UNSET */
 /* ENV */
+void	init_env(t_minishell *data, char **env);
 /* EXIT */
+void	exit_normal(t_minishell *data);
+void	exit_error(t_minishell *data);
 
 #endif

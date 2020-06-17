@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 12:27:38 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/17 15:07:54 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int		command_router(t_minishell *data, t_command *command);
 char	*remove_spaces(char *str);
 char	*dup_first_word(char *str);
 /* ECHO */
+void	 command_echo(t_minishell *data, t_command *cmd, char *str);
 /* CD */
 int		change_directory(char *path);
 /* PWD */

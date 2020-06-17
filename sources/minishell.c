@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 10:50:40 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/17 16:01:49 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,6 @@ int		get_line(char **line)
 	return (1);
 }
 
-void	print_cmd(void *element)
-{
-	t_command	*c;
-
-	c = (t_command *)element;
-	ft_printf("CMD : %s -- SEP : %d\n", c->cmd, c->separator);
-}
-
 void	set_prompt(t_minishell *data)
 {
 	while (data->run)
@@ -114,7 +106,6 @@ void	set_prompt(t_minishell *data)
 		get_line(&data->line);
 		line_split(data);
 		line_iteration(data);
-		ft_lstiter(data->cmd, &print_cmd);
 		reset_command(data);
 	}
 }

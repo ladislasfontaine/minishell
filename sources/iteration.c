@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:02:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 14:23:28 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/17 16:59:40 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	line_iteration(t_minishell *data)
 	while (element)
 	{
 		command = (t_command *)element->content;
-		// replace_variables(command); // to replace $
+		replace_variables(data, command);
 		// command_parser(command); // to check for quotes, redirection 
 		command_router(data, command);
 		element = element->next;

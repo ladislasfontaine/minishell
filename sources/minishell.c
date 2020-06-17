@@ -6,12 +6,13 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/16 19:03:18 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/17 09:35:53 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 	make a main struct minishell to store all the data
+	make an error function to clear command and make a new prompt if malloc fail
 
 	1/ create a prompt (minishell$) and wait
 	2/ when enter is pressed get the command to parse
@@ -108,7 +109,7 @@ void	set_prompt(t_minishell *data)
 {
 	while (data->run)
 	{
-		ft_printf("> ");
+		ft_printf("minishell$ ");
 		data->line = ft_strnew(1);
 		get_line(&data->line);
 		line_split(data);

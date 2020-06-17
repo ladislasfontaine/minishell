@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 15:40:09 by memartin         ###   ########.fr       */
+/*   Updated: 2020/06/17 18:25:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int		change_directory(char *path);
 /* PWD */
 int		print_cwd(void);
 /* EXPORT */
+void	ft_export(t_minishell *data, char *cmd);
 /* UNSET */
 /* ENV */
 void	init_env(t_minishell *data, char **env);
@@ -83,6 +84,8 @@ void	env(t_minishell *data);
 void	exit_normal(t_minishell *data);
 void	exit_error(t_minishell *data);
 
-
+int		is_export_arg_empty(char *arg);
+int		is_export_char(char c);
 int		is_whitespace(char c);
+
 #endif

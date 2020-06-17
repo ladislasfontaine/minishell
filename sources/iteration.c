@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:02:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 15:59:52 by memartin         ###   ########.fr       */
+/*   Updated: 2020/06/17 17:43:32 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int		command_router(t_minishell *data, t_command *command)
 		env(data);
 	else if (!ft_strncmp(cmd, "unset ", 6))
 		unset(data, cmd + 6);
+	else if	(!ft_strncmp(cmd, "export ", 7) || !ft_strcmp(cmd, "export"))
+		ft_export(data, cmd + 6);
+	ft_strdel(&cmd);
 	return (0);
 }
 

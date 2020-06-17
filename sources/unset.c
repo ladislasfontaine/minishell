@@ -6,11 +6,19 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:38:59 by memartin          #+#    #+#             */
-/*   Updated: 2020/06/17 15:22:59 by memartin         ###   ########.fr       */
+/*   Updated: 2020/06/17 19:13:03 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void		delete_arg_unset(void *element)
+{
+	char	*s;
+
+	s = (char *)element;
+	ft_strdel(&s);
+}
 
 static void		delete_one_env(void	*element)
 {
@@ -61,7 +69,6 @@ static void		create_new_arg(t_list **lst_arg, char *arg, int start, int end)
 	ft_lstadd_back(lst_arg, new);
 }
 
-
 static void		split_arg(t_list **lst_arg, char *arg)
 {
 	int			i;
@@ -87,6 +94,11 @@ void			unset(t_minishell *data, char *arg)
 	t_list		*tmp;
 	t_var		*var;
 
+	if (!*arg)
+	{
+		ft_printf("unset: not enough arguments\n");
+		return ;
+	}
 	lst_arg = NULL;
 	split_arg(&lst_arg, arg);
 	while (lst_arg)
@@ -102,4 +114,5 @@ void			unset(t_minishell *data, char *arg)
 			search_unset(data, (char*)lst_arg->content);
 		lst_arg = lst_arg->next;
 	}
+	ft_lstclear(&lst_arg, &delete_arg_unset);
 }

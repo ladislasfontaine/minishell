@@ -6,11 +6,29 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 14:03:17 by memartin          #+#    #+#             */
-/*   Updated: 2020/06/17 14:04:47 by memartin         ###   ########.fr       */
+/*   Updated: 2020/06/17 18:37:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int			is_export_arg_empty(char *arg)
+{
+	while (*arg && is_whitespace(*arg))
+		arg++;
+	if (!*arg)
+		return (1);
+	return (0);
+}
+
+int			is_export_char(char c)
+{
+	if (ft_isalnum(c) || c == '#' || c == '.' || c == '/' || c == '_' || 
+		c == '-' || c == '*' || c == ':' || c == '@' || c == '^' || c == '+' || 
+		c == '+' || c == '%' || c == '?' || c == ',' || c == '=')
+		return (1);
+	return (0);
+}
 
 int			is_whitespace(char c)
 {

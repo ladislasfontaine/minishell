@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:02:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 15:36:53 by memartin         ###   ########.fr       */
+/*   Updated: 2020/06/17 15:59:52 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int		command_router(t_minishell *data, t_command *command)
 		print_cwd();
 	else if (ft_strncmp(cmd, "cd ", 3) == 0)
 		change_directory(cmd + 3);
-	else if (!ft_strncmp(command->cmd, "env", 3))
+	else if (!ft_strncmp(cmd, "env", 3))
 		env(data);
-	else if (!ft_strncmp(command->cmd, "unset ", 6))
-		unset(data, command->cmd + 6);
+	else if (!ft_strncmp(cmd, "unset ", 6))
+		unset(data, cmd + 6);
 	return (0);
 }
 

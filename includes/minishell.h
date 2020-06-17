@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/16 19:48:16 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/17 15:19:06 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include "libft.h"
 #include "printf.h"
 
-#define CMD_SIZE 512
+#define CMD_SIZE 5121
 #define NONE 0
 #define SEMI_COLON 1
 #define PIPE 2
@@ -35,6 +35,7 @@ typedef struct	s_var
 {
 	char	*key;
 	char	*value;
+	int		local;
 }				t_var;
 
 typedef struct	s_command
@@ -50,7 +51,6 @@ typedef struct	s_minishell
 {
 	char	*line;
 	t_list	*env;
-	t_list	*local;
 	t_list	*cmd;
 	int		run;
 	int		separator;
@@ -70,8 +70,10 @@ int		change_directory(char *path);
 /* PWD */
 void	print_cwd(void);
 /* EXPORT */
-/* UNSET */
-/* ENV */
+void	unset(t_minishell *data, char *arg);
+void	env(t_minishell *data);
 /* EXIT */
 
+
+int		is_whitespace(char c);
 #endif

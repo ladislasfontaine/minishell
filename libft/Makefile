@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/23 09:39:28 by lafontai          #+#    #+#              #
-#    Updated: 2020/06/16 14:36:33 by user42           ###   ########.fr        #
+#    Updated: 2020/06/17 15:02:43 by memartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,16 +112,16 @@ endif
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			ar rcs $(NAME) $(OBJS)
+			@ar rcs $(NAME) $(OBJS)
 
 %.o:		%.c
-			$(CC) $(CFLAGS) -c $< -o $@ -I $(INC)
+			@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC)
 
 clean:
-			$(RM) $(OBJS)
+			@$(RM) $(OBJS)
 
 fclean:		clean
-			$(RM) $(NAME)
+			@$(RM) $(NAME)
 
 re:			fclean all
 

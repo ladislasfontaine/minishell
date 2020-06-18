@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 10:47:40 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 12:42:45 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/17 15:39:24 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,18 @@ void	init_env(t_minishell *data, char **env)
 		ft_lstadd_back(&data->env, new);
 		i++;
 	}
+}
+
+static void		print_env(void *element)
+{
+	t_var		*var;
+
+	var = (t_var*)element;
+	if (!var->local)
+		ft_printf("%s=%s\n", var->key, var->value);
+}
+
+void			env(t_minishell *data)
+{
+	ft_lstiter(data->env, &print_env);
 }

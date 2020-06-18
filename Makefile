@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/15 15:08:42 by lafontai          #+#    #+#              #
-#    Updated: 2020/06/17 18:24:04 by lafontai         ###   ########.fr        #
+#    Updated: 2020/06/18 08:58:07 by lafontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,9 @@ SRCS	= $(addprefix $(FOLDER), \
 			cd.c \
 			pwd.c \
 			exit.c \
+			unset.c \
+			utils.c \
+			export.c \
 			)
 
 OBJS	= $(SRCS:.c=.o)
@@ -46,19 +49,19 @@ endif
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			cd libft/ && make
-			$(CC) $(CFLAGS) libft/libft.a $(OBJS) -o $(NAME)
+			@cd libft/ && make
+			@$(CC) $(CFLAGS) $(OBJS) -L./libft -lft -o $(NAME)
 
 %.o:		%.c
-			$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS) -I $(INC_LIB)
+			@$(CC) $(CFLAGS) -I $(INCS) -I $(INC_LIB) -c $< -o $@ 
 
 clean:
-			make clean -C libft/
-			$(RM) $(OBJS)
+			@make clean -C libft/
+			@$(RM) $(OBJS)
 
 fclean:		clean
-			$(RM) libft/libft.a
-			$(RM) $(NAME)
+			@$(RM) libft/libft.a
+			@$(RM) $(NAME)
 
 re:			fclean all
 

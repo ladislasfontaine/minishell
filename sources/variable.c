@@ -6,14 +6,11 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:58:27 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 18:52:56 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/18 08:47:10 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// working great
-// need to add ${key} to work
 
 char	*get_var_value(t_minishell *data, char *key)
 {
@@ -38,25 +35,35 @@ char	*get_var_value(t_minishell *data, char *key)
 	return (value);
 }
 
-char	*get_var_key(char *str, int dollar)
+char	*get_var_key(char *str, int dollar, int *bracket, int d_quote)
 {
 	int		j;
 
 	j = 0;
-	while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ')
-		j++;
-	return (ft_substr(str, dollar + 1, j));
+	if (str[dollar + 1] == '{')
+	{
+		while (str[dollar + 2 + j] && str[dollar + 2 + j] != '}')
+			j++;
+		*bracket = 1;
+	}
+	else if (d_quote)
+		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' && str[dollar + 1 + j] != '\"')
+			j++;
+	else
+		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ')
+			j++;
+	return (ft_substr(str, dollar + *bracket + 1, j));
 }
 
 void	replace_key_by_value(t_minishell *data, t_command *cmd, t_var my_var, int dollar)
 {
 	char	*new_cmd;
 
-	if (!(new_cmd = ft_strnew(ft_strlen(cmd->cmd) - ft_strlen(my_var.key) - 1 + ft_strlen(my_var.value))))
+	if (!(new_cmd = ft_strnew(ft_strlen(cmd->cmd) - ft_strlen(my_var.key) - 1 - (2 * my_var.local) + ft_strlen(my_var.value))))
 		exit_error(data);
 	ft_strncat(new_cmd, cmd->cmd, dollar);
 	ft_strcat(new_cmd, my_var.value);
-	ft_strcat(new_cmd, cmd->cmd + dollar + 1 + ft_strlen(my_var.key));
+	ft_strcat(new_cmd, cmd->cmd + dollar + 1 + ft_strlen(my_var.key) + (2 * my_var.local));
 	free(cmd->cmd);
 	cmd->cmd = new_cmd;
 }
@@ -82,7 +89,8 @@ void	replace_variables(t_minishell *data, t_command *cmd)
 		{
 			my_var.key = NULL;
 			my_var.value = NULL;
-			if (!(my_var.key = get_var_key(cmd->cmd, i)))
+			my_var.local = 0;
+			if (!(my_var.key = get_var_key(cmd->cmd, i, &my_var.local, cmd->d_quote)))
 				exit_error(data);
 			if (!(my_var.value = get_var_value(data, my_var.key)))
 			{

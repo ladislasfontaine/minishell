@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/23 09:53:51 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/16 14:57:38 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/18 19:59:47 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char				*ft_strnstr(const char *haystack, const char *needle,
 								size_t len);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strjoin_with(char const *s1, char const *s2, char with);
 char				*ft_joinfree(char *s1, char *s2);
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);

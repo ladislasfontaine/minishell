@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/15 15:08:42 by lafontai          #+#    #+#              #
-#    Updated: 2020/06/19 12:04:13 by memartin         ###   ########.fr        #
+#    Updated: 2020/06/19 12:19:10 by memartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRCS	= $(addprefix $(FOLDER), \
 			iteration.c \
 			parser.c \
 			variable.c \
+			exec.c \
 			echo.c \
 			env.c \
 			cd.c \

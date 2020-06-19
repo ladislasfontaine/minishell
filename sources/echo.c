@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 14:09:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 16:53:33 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/18 19:54:28 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,14 @@ void	command_echo(t_minishell *data, t_command *cmd, char *str)
 	(void)data;
 	(void)cmd;
 	str = remove_spaces(str);
-	option = (ft_strncmp(str, "-n ", 3) == 0) ? 1 : 0;
+	if (!*str)
+	{
+		ft_printf("\n");
+		return ;
+	}
+	option = (!ft_strncmp(str, "-n ", 3) || !ft_strcmp(str, "-n")) ? 1 : 0;
 	if (option)
-		str += 3;
+		str += 2;
 	str = remove_spaces(str);
 	// change size
 	if (!(output = ft_strnew(CMD_SIZE)))

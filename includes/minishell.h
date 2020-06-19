@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/19 12:01:11 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/19 12:18:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ t_list	*duplicate_env(t_minishell *data);
 void	print_export_empty(void *element);
 
 
+void	command_execute(t_minishell *data, t_command *cmd);
+char	*get_var_value(t_minishell *data, char *key);
 /* ECHO */
 void	 command_echo(t_minishell *data, t_command *cmd, char *str);
 /* CD */

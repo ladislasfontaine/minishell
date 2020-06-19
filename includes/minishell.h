@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/19 15:22:27 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/19 15:55:18 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,13 @@ int		command_router(t_minishell *data, t_command *command);
 char	*remove_spaces(char *str);
 char	*dup_first_word(char *str);
 void	replace_variables(t_minishell *data, t_command *cmd);
+void	delete_arg(void *element);
+void	create_new_arg(t_list **lst_arg, char *arg, int start, int end);
+void	split_arg(t_list **lst_arg, char *arg);
+t_list	*duplicate_env(t_minishell *data);
+void	print_export_empty(void *element);
+
+
 void	command_execute(t_minishell *data, t_command *cmd);
 char	*get_var_value(t_minishell *data, char *key);
 void	check_quotes(char letter, int *s_quote, int *d_quote);
@@ -93,5 +100,4 @@ void	exit_error(t_minishell *data);
 int		is_export_arg_empty(char *arg);
 int		is_export_char(char c);
 int		is_whitespace(char c);
-
 #endif

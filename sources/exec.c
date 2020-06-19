@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 11:24:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/19 10:51:04 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/19 15:42:05 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,20 @@ char	**create_env_tab(t_minishell *data)
 	return (tab);
 }
 
-void	fork_and_execute(t_minishell *data, char **argv, char *path)
+void	execute_binary(t_minishell *data, char **argv, char *path)
 {
+	char	**envp;
 	pid_t	cpid;
 	int		status;
-	char	**envp;
 
 	envp = create_env_tab(data);
-	cpid = fork();
-	if (cpid == -1)
+	if ((cpid = fork()) == -1)
 	{
 		ft_printf("%s\n", strerror(errno));
 		exit_error(data);
 	}
 	if (cpid == 0)
-	{		/* Code executed by child */
-		ft_printf("Child PID is %d\n", getpid());
+	{
 		if (execve(path, argv, envp) == -1)
 		{
 			ft_printf("minishell: %s: %s\n", argv[0], strerror(errno));
@@ -75,12 +73,8 @@ void	fork_and_execute(t_minishell *data, char **argv, char *path)
 		}
 	}
 	else
-	{		/* Code executed by parent */
 		if (waitpid(cpid, &status, WUNTRACED | WCONTINUED) == -1)
 			exit_error(data);
-	}
-	while (!WIFEXITED(status) && !WIFSIGNALED(status))
-    	exit_normal(data);
 }
 
 int		search_exec_in_path(t_minishell *data, char **argv, char **path)
@@ -141,6 +135,6 @@ void	command_execute(t_minishell *data, t_command *cmd)
 		if (search_exec_in_path(data, argv, &path) == -1)
 			return ;
 	}
-	fork_and_execute(data, argv, path);
+	execute_binary(data, argv, path);
 	free_tab(argv);
 }

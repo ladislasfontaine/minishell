@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/18 08:54:29 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/19 11:08:08 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,9 @@ int		line_split(t_minishell *data)
 	old_i = 0;
 	while (data->line[i])
 	{
-		if (data->line[i] == '\'' && data->s_quote == 0 && data->d_quote != 1)
-			data->s_quote = 1;
-		else if (data->line[i] == '\'' && data->s_quote == 1)
-			data->s_quote = 0;
-		else if (data->line[i] == '\"' && data->d_quote == 0  && data->s_quote != 1)
-			data->d_quote = 1;
-		else if (data->line[i] == '\"' && data->d_quote == 1)
-			data->d_quote = 0;
-		else if ((data->line[i] == '|' || data->line[i] == ';') &&
-				!data->s_quote && !data->d_quote)
+		check_quotes(data->line[i], &data->s_quote, &data->d_quote);
+		if ((data->line[i] == '|' || data->line[i] == ';')
+			&& !data->s_quote && !data->d_quote)
 		{
 			if (data->line[i] == '|')
 				data->separator = PIPE;

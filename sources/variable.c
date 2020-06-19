@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:58:27 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/18 08:47:10 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/19 11:11:38 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,8 @@ void	replace_variables(t_minishell *data, t_command *cmd)
 	i = 0;
 	while (cmd->cmd[i])
 	{
-		// faire une fonction check_quotes
-		if (cmd->cmd[i] == '\'' && cmd->s_quote == 0 && cmd->d_quote != 1)
-			cmd->s_quote = 1;
-		else if (cmd->cmd[i] == '\'' && cmd->s_quote == 1)
-			cmd->s_quote = 0;
-		else if (cmd->cmd[i] == '\"' && cmd->d_quote == 0  && cmd->s_quote != 1)
-			cmd->d_quote = 1;
-		else if (cmd->cmd[i] == '\"' && cmd->d_quote == 1)
-			cmd->d_quote = 0;
-		else if (cmd->cmd[i] == '$' && !cmd->s_quote)
+		check_quotes(cmd->cmd[i], &cmd->s_quote, &cmd->d_quote);
+		if (cmd->cmd[i] == '$' && !cmd->s_quote)
 		{
 			my_var.key = NULL;
 			my_var.value = NULL;
@@ -107,4 +99,3 @@ void	replace_variables(t_minishell *data, t_command *cmd)
 	cmd->s_quote = 0;
 	cmd->d_quote = 0;
 }
-

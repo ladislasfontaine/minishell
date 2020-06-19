@@ -6,20 +6,26 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 11:24:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/18 20:05:02 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/19 10:51:04 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// faire une fonction strjoin_with(char *s1, char *s2, char with)
-// free ce qu'il faut
-
-char	**command_into_arguments(t_minishell *data, char *cmd)
+void	free_tab(char **tab)
 {
-	// faire un split qui prend en compte les quotes
-	(void)data;
-	return (ft_split(cmd, ' '));
+	int	i;
+
+	if (tab)
+	{
+		i = 0;
+		while (tab[i])
+		{
+			free(tab[i]);
+			i++;
+		}
+		free(tab);
+	}
 }
 
 char	**create_env_tab(t_minishell *data)
@@ -49,26 +55,28 @@ char	**create_env_tab(t_minishell *data)
 void	fork_and_execute(t_minishell *data, char **argv, char *path)
 {
 	pid_t	cpid;
-	pid_t	w;
 	int		status;
 	char	**envp;
 
 	envp = create_env_tab(data);
 	cpid = fork();
 	if (cpid == -1)
-        exit_error(data);
+	{
+		ft_printf("%s\n", strerror(errno));
+		exit_error(data);
+	}
 	if (cpid == 0)
-	{/* Code executed by child */
+	{		/* Code executed by child */
 		ft_printf("Child PID is %d\n", getpid());
 		if (execve(path, argv, envp) == -1)
 		{
-			ft_printf("%s\n", strerror(errno));
+			ft_printf("minishell: %s: %s\n", argv[0], strerror(errno));
 			exit(1);
 		}
 	}
 	else
-	{/* Code executed by parent */
-		if ((w = waitpid(cpid, &status, WUNTRACED | WCONTINUED)) == -1)
+	{		/* Code executed by parent */
+		if (waitpid(cpid, &status, WUNTRACED | WCONTINUED) == -1)
 			exit_error(data);
 	}
 	while (!WIFEXITED(status) && !WIFSIGNALED(status))
@@ -89,7 +97,6 @@ int		search_exec_in_path(t_minishell *data, char **argv, char **path)
 		ft_printf("Error message, No path var\n");
 		return (-1);
 	}
-	// free les ft_split
 	path_tab = ft_split(*path, ':');
 	i = 0;
 	while (path_tab[i])
@@ -100,12 +107,15 @@ int		search_exec_in_path(t_minishell *data, char **argv, char **path)
 			free(*path);
 			*path = ft_strdup(temp);
 			free(temp);
+			free_tab(path_tab);
 			return (0);
 		}
 		else
 			free(temp);
 		i++;
 	}
+	free_tab(path_tab);
+	ft_printf("minishell: %s: command not found\n", argv[0]);
 	return (-1);
 }
 
@@ -116,13 +126,12 @@ void	command_execute(t_minishell *data, t_command *cmd)
 
 	argv = NULL;
 	path = NULL;
-	if (!(argv = command_into_arguments(data, cmd->cmd)))
+	if (!(argv = ft_split_special(cmd->cmd, ' ')))
 		exit_error(data);
 	if (!*argv)
 		return ;
 	else if (argv[0][0] == '/')
 	{
-		// absolute_path()
 		path = ft_strdup(argv[0]);
 		free(argv[0]);
 		argv[0] = ft_strdup(ft_strrchr(path, '/'));
@@ -133,4 +142,5 @@ void	command_execute(t_minishell *data, t_command *cmd)
 			return ;
 	}
 	fork_and_execute(data, argv, path);
+	free_tab(argv);
 }

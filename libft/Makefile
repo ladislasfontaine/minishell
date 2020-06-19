@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/23 09:39:28 by lafontai          #+#    #+#              #
-#    Updated: 2020/06/18 20:00:04 by lafontai         ###   ########.fr        #
+#    Updated: 2020/06/19 10:38:57 by lafontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS	= \
 			ft_putstr.c \
 			ft_putstrn.c \
 			ft_split.c \
+			ft_split_special.c \
 			ft_strcat.c \
 			ft_strchr.c \
 			ft_strclr.c \

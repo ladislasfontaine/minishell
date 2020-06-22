@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/19 15:55:18 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/22 18:17:35 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ typedef struct	s_var
 
 typedef struct	s_command
 {
-	char	*cmd;
-	int		separator;
-	int		s_quote;
-	int		d_quote;
-	int		chevron;
+	char				*cmd;
+	int					separator;
+	int					s_quote;
+	int					d_quote;
+	int					chevron;
+	struct s_command	*previous;
 }				t_command;
 
 typedef struct	s_minishell
@@ -59,13 +60,13 @@ typedef struct	s_minishell
 }				t_minishell;
 
 void	init_minishell(t_minishell *data);
-int		init_command(t_command **command, int sep, char *sub);
+int		init_command(t_command **command, int sep, char *sub, t_list *previous);
 void	del_command(void *element);
 void	del_variable(void *element);
 void	clear_all(t_minishell *data);
 void	reset_command(t_minishell *data);
 void	line_iteration(t_minishell *data);
-int		command_router(t_minishell *data, t_command *command);
+void	command_router(t_minishell *data, t_command *command);
 char	*remove_spaces(char *str);
 char	*dup_first_word(char *str);
 void	replace_variables(t_minishell *data, t_command *cmd);
@@ -79,7 +80,9 @@ void	print_export_empty(void *element);
 void	command_execute(t_minishell *data, t_command *cmd);
 char	*get_var_value(t_minishell *data, char *key);
 void	check_quotes(char letter, int *s_quote, int *d_quote);
-void	create_process(t_minishell *data, t_list *element);
+void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2]);
+void	handle_fd(t_command *cmd, int p_fd[2], int c_fd[2]);
+void	close_fds(int p_fd[2], int c_fd[2]);
 /* ECHO */
 void	 command_echo(t_minishell *data, t_command *cmd, char *str);
 /* CD */

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/19 11:08:08 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/22 18:14:00 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@
 int		create_command(t_minishell *data, int start, int end)
 {
 	t_command	*command;
+	t_list		*previous;
 	t_list		*new;
 	int			len;
 
 	command = NULL;
+	previous = ft_lstlast(data->cmd);
 	len = (end - start) < 0 ? 0 : (end - start);
-	if (init_command(&command, data->separator, ft_substr(data->line, start, len)) == -1)
+	if (init_command(&command, data->separator, ft_substr(data->line, start, len), previous) == -1)
 		return (-1);
 	new = ft_lstnew((void *)command);
 	ft_lstadd_back(&data->cmd, new);

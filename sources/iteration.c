@@ -6,13 +6,13 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:02:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/19 15:22:31 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/22 15:39:21 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		command_router(t_minishell *data, t_command *command)
+void	command_router(t_minishell *data, t_command *command)
 {
 	char	*cmd;
 
@@ -31,5 +31,5 @@ int		command_router(t_minishell *data, t_command *command)
 		ft_export(data, cmd + 6);
 	else
 		command_execute(data, command);
-	return (0);
+	exit(0);
 }

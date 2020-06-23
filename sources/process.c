@@ -6,16 +6,11 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:03:34 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/22 18:00:35 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/23 08:40:03 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// creation d'un nouveau process pour chaque commande à exécuter
-	// si séparateur est pipe on fait la redirection avec un processus enfant
-	// si pas un pipe on exécute et on ferme le processus
-// à la fin d'une suite de pipes on envoit stdout du dernier enfant sur stdout de minishell
 
 void	line_iteration(t_minishell *data)
 {
@@ -91,7 +86,11 @@ void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2]
 	}
 	else
 	{
-		execute_parent(data, element, cpid, p_fd);
+		if (cmd->separator == PIPE && cmd->previous && cmd->previous->separator == PIPE
+			&& !(close(p_fd[0])) && !(close(p_fd[1])))
+			execute_parent(data, element, cpid, c_fd);
+		else
+			execute_parent(data, element, cpid, p_fd);
 	}
 	//while (!WIFEXITED(status) && !WIFSIGNALED(status))
     //	exit_normal(data);

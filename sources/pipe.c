@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/22 15:43:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/22 18:26:29 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/23 08:22:23 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	handle_fd(t_command *cmd, int p_fd[2], int c_fd[2])
 {
-	(void)c_fd;
 	if (cmd->previous && cmd->previous->separator == PIPE)
 	{
 		dup2(p_fd[0], 0);

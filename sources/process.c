@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:03:34 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/23 08:40:03 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/23 10:50:41 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	line_iteration(t_minishell *data)
 	{
 		if (pipe(p_fd))
 			return ;
-		create_process(data, element, p_fd, NULL);
+		if (!command_router_no_process(data, (t_command *)element->content))
+			create_process(data, element, p_fd, NULL);
 		close(p_fd[0]);
 		close(p_fd[1]);
 		// check for redirections
@@ -34,9 +35,15 @@ void	line_iteration(t_minishell *data)
 
 void	execute_child(t_minishell *data, t_command *cmd, t_list *element)
 {
+	char	*tmp;
+
 	(void)element;
+	tmp = cmd->cmd;
 	ft_printf("Child PID is %d\n", getpid());
-	command_router(data, cmd);
+	cmd->cmd = ft_strtrim(tmp, " ");
+	if (cmd->cmd)
+		command_router(data, cmd);
+	free(tmp);
 	exit(0);
 }
 
@@ -69,11 +76,6 @@ void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2]
 	cmd = (t_command *)element->content;
 	replace_variables(data, cmd);
 	str = ft_strtrim(cmd->cmd, " ");
-	if (!ft_strncmp(str, "exit ", 5) || !ft_strcmp(str, "exit"))
-	{
-		ft_strdel(&str);
-		exit_normal(data);
-	}
 	if ((cpid = fork()) == -1)
 	{
 		ft_printf("%s\n", strerror(errno));

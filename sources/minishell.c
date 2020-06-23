@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/22 18:14:00 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/23 09:57:34 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,32 +43,6 @@ int		create_command(t_minishell *data, int start, int end)
 	return (0);
 }
 
-int		line_split(t_minishell *data)
-{
-	int			old_i;
-	int			i;
-
-	i = 0;
-	old_i = 0;
-	while (data->line[i])
-	{
-		check_quotes(data->line[i], &data->s_quote, &data->d_quote);
-		if ((data->line[i] == '|' || data->line[i] == ';')
-			&& !data->s_quote && !data->d_quote)
-		{
-			if (data->line[i] == '|')
-				data->separator = PIPE;
-			if (data->line[i] == ';')
-				data->separator = SEMI_COLON;
-			create_command(data, old_i, i);
-			old_i = i + 1;
-		}
-		i++;
-	}
-	create_command(data, old_i, i - 1);
-	return (0);
-}
-
 int		get_line(char **line)
 {
 	char		*buff;
@@ -99,7 +73,7 @@ void	set_prompt(t_minishell *data)
 		ft_printf("minishell$ ");
 		data->line = ft_strnew(1);
 		get_line(&data->line);
-		line_split(data);
+		split_line(data);
 		line_iteration(data);
 		reset_command(data);
 	}

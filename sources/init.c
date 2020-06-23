@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 16:09:21 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/22 18:13:58 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/23 16:19:54 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,13 @@ int		init_command(t_command **command, int sep, char *sub, t_list *previous)
 		return (-1);
 	}
 	(*command)->cmd = sub;
+	(*command)->args = NULL;
 	(*command)->separator = sep;
 	(*command)->s_quote = 0;
 	(*command)->d_quote = 0;
 	(*command)->chevron = 0;
+	(*command)->out = 0;
+	(*command)->in = 0;
 	(*command)->previous = (previous) ? (t_command *)previous->content : NULL;
 	return (0);
 }

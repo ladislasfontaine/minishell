@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 11:24:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/19 15:42:05 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/23 17:21:47 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ void	command_execute(t_minishell *data, t_command *cmd)
 		if (search_exec_in_path(data, argv, &path) == -1)
 			return ;
 	}
-	execute_binary(data, argv, path);
+	// attention à modifier cmd->args pour gérer le cas avec une path absolu
+	// si pas besoin virer argv
+	execute_binary(data, cmd->args, path);
 	free_tab(argv);
 }

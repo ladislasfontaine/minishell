@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/23 09:57:34 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/23 17:56:19 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	set_prompt(t_minishell *data)
 {
 	while (data->run)
 	{
-		ft_printf("minishell$ ");
+		ft_printf(""GREEN"➜  "CYAN"minishell "RESET"");
 		data->line = ft_strnew(1);
 		get_line(&data->line);
 		split_line(data);

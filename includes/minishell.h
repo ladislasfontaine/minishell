@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/23 10:29:38 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/23 17:57:34 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 #include <signal.h>
 #include <errno.h>
 #include "libft.h"
@@ -30,6 +31,9 @@
 #define RIGHT 1
 #define LEFT 2
 #define D_RIGHT 3
+#define GREEN "\033[1;32m"
+#define CYAN "\033[1;36m"
+#define RESET "\033[0m"
 
 typedef struct	s_var
 {
@@ -41,10 +45,14 @@ typedef struct	s_var
 typedef struct	s_command
 {
 	char				*cmd;
+	char				**args;
 	int					separator;
 	int					s_quote;
 	int					d_quote;
 	int					chevron;
+	int					in;
+	int					out;
+	int					fd[2];
 	struct s_command	*previous;
 }				t_command;
 
@@ -57,6 +65,7 @@ typedef struct	s_minishell
 	int		separator;
 	int		s_quote;
 	int		d_quote;
+	int		stop;
 }				t_minishell;
 
 void	init_minishell(t_minishell *data);
@@ -68,15 +77,18 @@ void	reset_command(t_minishell *data);
 void	line_iteration(t_minishell *data);
 void	command_router(t_minishell *data, t_command *command);
 int		command_router_no_process(t_minishell *data, t_command *command);
+void	redirection_router(t_minishell *data, t_command *cmd);
 char	*remove_spaces(char *str);
 char	*dup_first_word(char *str);
 void	replace_variables(t_minishell *data, t_command *cmd);
 void	delete_arg(void *element);
 int		create_command(t_minishell *data, int start, int end);
 void	create_new_arg(t_list **lst_arg, char *arg, int start, int end);
+void	free_tab(char **tab);
 
 int		split_line(t_minishell *data);
 void	split_arg(t_list **lst_arg, char *arg);
+void	split_command(t_command *cmd);
 
 t_list	*duplicate_env(t_minishell *data);
 void	print_export_empty(void *element);

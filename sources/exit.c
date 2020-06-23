@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:13:10 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/17 12:41:25 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/23 14:07:27 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	del_command(void *element)
 	t_command	*temp;
 
 	temp = (t_command *)element;
+	if (temp->args)
+		free_tab(temp->args);
 	if (temp->cmd)
 		free(temp->cmd);
 }

@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/15 15:08:42 by lafontai          #+#    #+#              #
-#    Updated: 2020/06/22 15:43:33 by lafontai         ###   ########.fr        #
+#    Updated: 2020/06/23 11:02:24 by lafontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS	= $(addprefix $(FOLDER), \
 			exec.c \
 			process.c \
 			pipe.c \
+			redirect.c \
 			echo.c \
 			env.c \
 			cd.c \

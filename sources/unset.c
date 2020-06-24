@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:38:59 by memartin          #+#    #+#             */
-/*   Updated: 2020/06/19 12:17:45 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/24 16:52:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ static void		search_unset(t_minishell *data, char *target)
 				element->next = tmp;
 			}
 			else
+			{
 				ft_lstdelone(element->next, &delete_one_env);
+				element->next = NULL;
+				break ;
+			}
 		}
 		element = element->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/23 17:57:34 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 14:40:35 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,10 @@ void	close_fds(int p_fd[2], int c_fd[2]);
 /* ECHO */
 void	 command_echo(t_minishell *data, t_command *cmd, char *str);
 /* CD */
-int		change_directory(char *path);
+int		command_cd(t_minishell *data, t_command *cmd);
 /* PWD */
 int		print_cwd(void);
+char	*return_cwd(void);
 /* EXPORT */
 void	ft_export(t_minishell *data, char *cmd);
 /* UNSET */

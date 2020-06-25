@@ -6,31 +6,24 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:19:09 by memartin          #+#    #+#             */
-/*   Updated: 2020/06/19 11:59:04 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 16:22:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		check_arg(t_list *lst_arg)
+static int		check_arg(char *s)
 {
-	char		*s;
-
-	while (lst_arg)
-	{
-		s = (char*)lst_arg->content;
-		if (!ft_isalpha(*s++))
-			return (0);
-		while (*s && (ft_isalnum(*s) || *s == '_'))
-			s++;
-		if (*s++ != '=')
-			return (0);
-		while (*s && is_export_char(*s))
-			s++;
-		if (*s)
-			return (0);
-		lst_arg = lst_arg->next;
-	}
+	if (!ft_isalpha(*s++))
+		return (0);
+	while (*s && (ft_isalnum(*s) || *s == '_'))
+		s++;
+	if (*s++ != '=')
+		return (0);
+	while (*s && is_export_char(*s))
+		s++;
+	if (*s)
+		return (0);
 	return (1);
 }
 
@@ -75,43 +68,37 @@ static void		add_new_var_to_env(t_minishell *data, char *arg, int i)
 	ft_lstadd_back(&data->env, new);
 }
 
-static void		add_to_env(t_minishell *data, t_list *lst_arg)
+static void		add_to_env(t_minishell *data, char **arg)
 {
-	char	*arg;
 	int		i;
+	int		j;
 
-	while (lst_arg)
+	j = 1;
+	while (arg[j])
 	{
 		i = 0;
-		arg = (char*)lst_arg->content;
-		while (arg[i] && arg[i] != '=')
-			i++;
-		add_new_var_to_env(data, arg, i);
-		lst_arg = lst_arg->next;
+		if (check_arg(arg[j]))
+		{
+			while (arg[j][i] && arg[j][i] != '=')
+				i++;
+			add_new_var_to_env(data, arg[j], i);
+		}
+		else
+			ft_printf("export: not an argument: %s\n", arg[j]);
+		j++;
 	}
 }
 
-void			ft_export(t_minishell *data, char *arg)
+void			ft_export(t_minishell *data, char **arg)
 {
-	t_list		*lst_arg;
 	t_list		*tmp_env;
 
-	(void)data;
-	lst_arg = NULL;
-	if (is_export_arg_empty(arg))
+	if (!arg[1])
 	{
 		tmp_env = duplicate_env(data);
 		ft_lstiter(tmp_env, &print_export_empty);
 		ft_lstclear(&tmp_env, &del_variable);
 		return ;
 	}
-	split_arg(&lst_arg, arg);
-	if (!check_arg(lst_arg))
-	{
-		ft_printf("bad arguments\n");
-		ft_lstclear(&lst_arg, &delete_arg);
-		return ;
-	}
-	add_to_env(data, lst_arg);
-	ft_lstclear(&lst_arg, &delete_arg);
+	add_to_env(data, arg);
 }

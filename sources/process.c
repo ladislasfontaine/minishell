@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:03:34 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/24 18:07:47 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 14:26:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ void	line_iteration(t_minishell *data)
 	while (element)
 	{
 		cmd = (t_command *)element->content;
-		replace_variables(data, cmd);
-		split_command(cmd);
-		redirection_router(data, cmd);
 		if (pipe(p_fd))
 			return ;
 		if (!command_router_no_process(data, cmd))
@@ -86,9 +83,6 @@ void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2]
 	cmd = (t_command *)element->content;
 	str = ft_strtrim(cmd->cmd, " ");
 	(void)str;
-	replace_variables(data, cmd);
-	split_command(cmd);
-	redirection_router(data, cmd);
 	if ((cpid = fork()) == -1)
 	{
 		ft_printf("%s\n", strerror(errno));

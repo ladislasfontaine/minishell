@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:02:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/23 10:58:44 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 15:23:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	command_router(t_minishell *data, t_command *command)
 {
 	char	*cmd;
 
-	cmd = command->cmd;
+	cmd = ft_strtrim(command->cmd, " ");
 	if (!ft_strncmp(cmd, "pwd ", 4) || !ft_strcmp(cmd, "pwd"))
 		print_cwd();
 	else if (!ft_strncmp(cmd, "echo ", 5) || !ft_strcmp(cmd, "echo"))
@@ -34,7 +34,7 @@ int		command_router_no_process(t_minishell *data, t_command *command)
 {
 	char	*cmd;
 
-	cmd = command->cmd;
+	cmd = ft_strtrim(command->cmd, " ");
 	if (ft_strncmp(cmd, "cd ", 3) == 0 && command->separator != PIPE)
 		change_directory(cmd + 3);
 	else if (!ft_strncmp(cmd, "unset ", 6) && command->separator != PIPE)

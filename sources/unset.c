@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:38:59 by memartin          #+#    #+#             */
-/*   Updated: 2020/06/25 16:17:28 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 18:41:47 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void			unset(t_minishell *data, char **arg)
 	int			i;
 
 	i = 1;
+	data->exit = 0;
 	while (arg[i])
 	{
 		var = (t_var *)data->env->content;

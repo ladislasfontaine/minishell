@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 11:24:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 18:20:11 by memartin         ###   ########.fr       */
+/*   Updated: 2020/06/25 19:03:36 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,17 @@ void	execute_binary(t_minishell *data, char **argv, char *path)
 		if (execve(path, argv, envp) == -1)
 		{
 			print_error_exec_errno(argv[0], strerror(errno));
+			data->exit = 1;
 			exit(1);
 		}
 	}
 	else
+	{
 		if (waitpid(cpid, &status, WUNTRACED | WCONTINUED) == -1)
 			exit_error(data);
+		if (WIFEXITED(status))
+			data->exit = WEXITSTATUS(status);
+	}
 }
 
 int		search_exec_in_path(t_minishell *data, char **argv, char **path)

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 16:09:21 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 17:16:58 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 17:45:54 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	init_minishell(t_minishell *data)
 	data->separator = 0;
 	data->s_quote = 0;
 	data->d_quote = 0;
+	data->stop = 0;
+	data->exit = 0;
 }
 
 int		init_command(t_command **command, int sep, char *sub, t_list *previous)
@@ -54,4 +56,5 @@ void	reset_command(t_minishell *data)
 	data->cmd = NULL;
 	data->s_quote = 0;
 	data->d_quote = 0;
+	data->stop = 0;
 }

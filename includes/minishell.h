@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 18:19:17 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 19:04:15 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct	s_minishell
 	int		s_quote;
 	int		d_quote;
 	int		stop;
+	int		exit;
 }				t_minishell;
 
 void	init_minishell(t_minishell *data);
@@ -101,11 +102,12 @@ void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2]
 void	handle_fd(t_command *cmd, int p_fd[2], int c_fd[2]);
 void	close_fds(int p_fd[2], int c_fd[2]);
 /* ECHO */
-void	 command_echo(t_command *cmd);
+void	command_echo(t_minishell *data, t_command *cmd);
 /* CD */
-int		change_directory(char *path);
+int		command_cd(t_minishell *data, t_command *cmd);
 /* PWD */
-int		print_cwd(void);
+int		command_pwd(t_minishell *data, t_command *cmd);
+char	*return_cwd(void);
 /* EXPORT */
 void	ft_export(t_minishell *data, char **arg);
 /* UNSET */

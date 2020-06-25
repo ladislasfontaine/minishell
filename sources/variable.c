@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:58:27 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/19 11:11:38 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 15:48:52 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,15 @@ void	replace_variables(t_minishell *data, t_command *cmd)
 			my_var.local = 0;
 			if (!(my_var.key = get_var_key(cmd->cmd, i, &my_var.local, cmd->d_quote)))
 				exit_error(data);
-			if (!(my_var.value = get_var_value(data, my_var.key)))
+			if (ft_strequ(my_var.key, "?"))
+			{
+				if (!(my_var.value = ft_itoa(data->exit)))
+				{
+					free(my_var.key);
+					exit_error(data);
+				}
+			}
+			else if (!(my_var.value = get_var_value(data, my_var.key)))
 			{
 				free(my_var.key);
 				exit_error(data);

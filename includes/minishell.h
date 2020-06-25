@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 17:24:41 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 18:19:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void	split_command(t_command *cmd);
 t_list	*duplicate_env(t_minishell *data);
 void	print_export_empty(void *element);
 
+void	print_error_cmd_not_found(char *s);
+void	print_error_exec_errno(char *s1, char *s2);
 
 void	command_execute(t_minishell *data, t_command *cmd);
 char	*get_var_value(t_minishell *data, char *key);
@@ -119,7 +121,6 @@ void	(*SIGINT_handler)(int);
 void	(*SIGQUIT_handler)(int);
 void	ignore_signal(t_minishell *data);
 void	restore_signals_in_child(t_minishell *data);
-
 
 int		is_export_arg_empty(char *arg);
 int		is_export_char(char c);

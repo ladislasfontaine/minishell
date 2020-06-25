@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 11:24:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/24 18:08:28 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 18:20:11 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	execute_binary(t_minishell *data, char **argv, char *path)
 	{
 		if (execve(path, argv, envp) == -1)
 		{
-			ft_printf("minishell: %s: %s\n", argv[0], strerror(errno));
+			print_error_exec_errno(argv[0], strerror(errno));
 			exit(1);
 		}
 	}
@@ -88,7 +88,7 @@ int		search_exec_in_path(t_minishell *data, char **argv, char **path)
 		exit_error(data);
 	if (**path == '\0')
 	{
-		ft_printf("Error message, No path var\n");
+		ft_putstr_fd("Error message, No path var\n", 2);
 		return (-1);
 	}
 	path_tab = ft_split(*path, ':');
@@ -109,7 +109,7 @@ int		search_exec_in_path(t_minishell *data, char **argv, char **path)
 		i++;
 	}
 	free_tab(path_tab);
-	ft_printf("minishell: %s: command not found\n", argv[0]);
+	print_error_cmd_not_found(argv[0]);
 	return (-1);
 }
 

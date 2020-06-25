@@ -6,7 +6,7 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:19:09 by memartin          #+#    #+#             */
-/*   Updated: 2020/06/25 16:22:28 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 18:25:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,11 @@ static void		add_to_env(t_minishell *data, char **arg)
 			add_new_var_to_env(data, arg[j], i);
 		}
 		else
-			ft_printf("export: not an argument: %s\n", arg[j]);
+		{
+			ft_putstr_fd("export: not an identifier: \"", 2);
+			ft_putstr_fd(arg[j], 2);
+			ft_putstr_fd("\"\n", 2);
+		}
 		j++;
 	}
 }

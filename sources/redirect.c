@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 11:02:04 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/23 17:26:39 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 18:21:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		create_redirection(t_minishell *data, t_command *cmd, int i, int flags)
 
 	if ((fd = open(cmd->args[i + 1], flags, 0644)) < 0)
 	{
-		ft_printf("minishell: %s: %s\n", cmd->args[i + 1], strerror(errno));
+		print_error_exec_errno(cmd->args[i + 1], strerror(errno));
 		data->stop = 1;
 	}
 	if ((ft_strequ(cmd->args[i], ">") || ft_strequ(cmd->args[i], ">>")) && cmd->out)

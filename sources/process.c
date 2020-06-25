@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:03:34 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/24 18:07:47 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 17:32:47 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	execute_child(t_minishell *data, t_command *cmd, t_list *element)
 			command_router(data, cmd);
 	}
 	free(tmp);
-	exit(0);
+	ft_printf("Exit with %d\n", data->exit);
+	exit(data->exit);
 }
 
 void	execute_parent(t_minishell *data, t_list *element, pid_t cpid, int p_fd[2])
@@ -73,6 +74,8 @@ void	execute_parent(t_minishell *data, t_list *element, pid_t cpid, int p_fd[2])
 	close_fds(p_fd, c_fd);
 	if (waitpid(cpid, &status, WUNTRACED | WCONTINUED) == -1)
 		exit_error(data);
+	if (WIFEXITED(status))
+		data->exit = WEXITSTATUS(status);
 	//if (WIFEXITED(status))
 	//	ft_printf("Exited child %d\n", (int)cpid);
 }

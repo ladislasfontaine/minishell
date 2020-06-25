@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 14:40:35 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 15:33:22 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct	s_minishell
 	int		s_quote;
 	int		d_quote;
 	int		stop;
+	int		exit;
 }				t_minishell;
 
 void	init_minishell(t_minishell *data);

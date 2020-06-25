@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:02:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 14:50:09 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 16:17:07 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	command_router(t_minishell *data, t_command *command)
 		ft_export(data, cmd + 6);
 	else
 		command_execute(data, command);
-	exit(0);
+	//exit(0);
 }
 
 int		command_router_no_process(t_minishell *data, t_command *command)

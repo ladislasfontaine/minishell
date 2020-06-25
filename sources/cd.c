@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:34:32 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 15:02:05 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 16:00:47 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int		command_cd(t_minishell *data, t_command *cmd)
 	}
 	if (chdir(path) == -1)
 	{
+		data->exit = 1;
 		ft_printf("minishell: %s: %s: %s\n", cmd->args[0], cmd->args[1], strerror(errno));
 		free(path);
 		free(old_path);

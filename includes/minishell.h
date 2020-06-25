@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 16:24:25 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 17:24:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct	s_minishell
 	t_list	*env;
 	t_list	*cmd;
 	int		run;
+	int		signal_set;
 	int		separator;
 	int		s_quote;
 	int		d_quote;
@@ -113,6 +114,12 @@ void	env(t_minishell *data);
 /* EXIT */
 void	exit_normal(t_minishell *data);
 void	exit_error(t_minishell *data);
+/* SIGNAL */
+void	(*SIGINT_handler)(int);
+void	(*SIGQUIT_handler)(int);
+void	ignore_signal(t_minishell *data);
+void	restore_signals_in_child(t_minishell *data);
+
 
 int		is_export_arg_empty(char *arg);
 int		is_export_char(char c);

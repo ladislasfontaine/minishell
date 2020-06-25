@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:03:34 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 14:26:39 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 17:24:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2]
 	}
 	if (cpid == 0)
 	{
+		restore_signals_in_child(data);
 		handle_fd(cmd, p_fd, c_fd);
 		execute_child(data, cmd, element);
 	}

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:38:59 by memartin          #+#    #+#             */
-/*   Updated: 2020/06/24 16:52:09 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/25 18:41:47 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,26 +52,25 @@ static void		search_unset(t_minishell *data, char *target)
 	}
 }
 
-void			unset(t_minishell *data, char *arg)
+void			unset(t_minishell *data, char **arg)
 {
-	t_list		*lst_arg;
 	t_list		*tmp;
 	t_var		*var;
+	int			i;
 
-	lst_arg = NULL;
-	split_arg(&lst_arg, arg);
-	while (lst_arg)
+	i = 1;
+	data->exit = 0;
+	while (arg[i])
 	{
 		var = (t_var *)data->env->content;
-		if (!ft_strcmp((char*)lst_arg->content, var->key))
+		if (!ft_strcmp(arg[i], var->key))
 		{
 			tmp = data->env->next;
 			ft_lstdelone(data->env, &delete_one_env);
 			data->env = tmp;
 		}
 		else
-			search_unset(data, (char*)lst_arg->content);
-		lst_arg = lst_arg->next;
+			search_unset(data, arg[i]);
+		i++;
 	}
-	ft_lstclear(&lst_arg, &delete_arg);
 }

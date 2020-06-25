@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/15 15:08:42 by lafontai          #+#    #+#              #
-#    Updated: 2020/06/23 11:02:24 by lafontai         ###   ########.fr        #
+#    Updated: 2020/06/25 17:20:41 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS	= $(addprefix $(FOLDER), \
 			export.c \
 			export_unset_utils.c \
 			lst_utils.c \
+			signal.c \
 			)
 
 OBJS	= $(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:03:34 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 17:32:47 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 18:43:58 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ void	line_iteration(t_minishell *data)
 	while (element)
 	{
 		cmd = (t_command *)element->content;
-		replace_variables(data, cmd);
-		split_command(cmd);
-		redirection_router(data, cmd);
 		if (pipe(p_fd))
 			return ;
 		if (!command_router_no_process(data, cmd))
@@ -46,7 +43,6 @@ void	execute_child(t_minishell *data, t_command *cmd, t_list *element)
 
 	(void)element;
 	tmp = cmd->cmd;
-	//ft_printf("Child PID is %d\n", getpid());
 	cmd->cmd = ft_strtrim(tmp, " ");
 	if (cmd->cmd)
 	{
@@ -54,7 +50,6 @@ void	execute_child(t_minishell *data, t_command *cmd, t_list *element)
 			command_router(data, cmd);
 	}
 	free(tmp);
-	ft_printf("Exit with %d\n", data->exit);
 	exit(data->exit);
 }
 
@@ -67,17 +62,15 @@ void	execute_parent(t_minishell *data, t_list *element, pid_t cpid, int p_fd[2])
 	if (pipe(c_fd) < 0)
 		return ;
 	cmd = (t_command *)element->content;
+	if (waitpid(cpid, &status, WUNTRACED | WCONTINUED) == -1)
+		exit_error(data);
+	if (WIFEXITED(status))
+		data->exit = WEXITSTATUS(status);
 	if (cmd->separator == PIPE)
 	{
 		create_process(data, element->next, p_fd, c_fd);
 	}
 	close_fds(p_fd, c_fd);
-	if (waitpid(cpid, &status, WUNTRACED | WCONTINUED) == -1)
-		exit_error(data);
-	if (WIFEXITED(status))
-		data->exit = WEXITSTATUS(status);
-	//if (WIFEXITED(status))
-	//	ft_printf("Exited child %d\n", (int)cpid);
 }
 
 void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2])
@@ -89,9 +82,6 @@ void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2]
 	cmd = (t_command *)element->content;
 	str = ft_strtrim(cmd->cmd, " ");
 	(void)str;
-	replace_variables(data, cmd);
-	split_command(cmd);
-	redirection_router(data, cmd);
 	if ((cpid = fork()) == -1)
 	{
 		ft_printf("%s\n", strerror(errno));
@@ -99,6 +89,7 @@ void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2]
 	}
 	if (cpid == 0)
 	{
+		restore_signals_in_child(data);
 		handle_fd(cmd, p_fd, c_fd);
 		execute_child(data, cmd, element);
 	}

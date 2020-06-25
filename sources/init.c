@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 16:09:21 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 16:11:17 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 17:45:54 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_minishell(t_minishell *data)
 	data->env = NULL;
 	data->cmd = NULL;
 	data->run = 1;
+	data->signal_set = 0;
 	data->separator = 0;
 	data->s_quote = 0;
 	data->d_quote = 0;

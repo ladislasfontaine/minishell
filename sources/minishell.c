@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/23 17:56:19 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 17:18:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 #include "minishell.h"
 
-int		create_command(t_minishell *data, int start, int end)
+int					create_command(t_minishell *data, int start, int end)
 {
 	t_command	*command;
 	t_list		*previous;
@@ -43,7 +43,7 @@ int		create_command(t_minishell *data, int start, int end)
 	return (0);
 }
 
-int		get_line(char **line)
+static int			get_line(char **line)
 {
 	char		*buff;
 	int			rd;
@@ -66,26 +66,62 @@ int		get_line(char **line)
 	return (1);
 }
 
-void	set_prompt(t_minishell *data)
+static void			split_all_command(t_minishell *data)
+{
+	t_list		*element;
+	t_command	*cmd;
+
+	element = data->cmd;
+	while (element)
+	{
+		cmd = (t_command*)element->content;
+		replace_variables(data, cmd);
+		split_command(cmd);
+		redirection_router(data, cmd);
+		element = element->next;
+	}
+}
+
+static t_command	*get_last_command(t_minishell *data)
+{
+	t_command	*cmd;
+	t_list		*element;
+
+	element = data->cmd;
+	while (element->next)
+		element = element->next;
+	cmd = (t_command*)element->content;
+	return (cmd);
+}
+
+static void			set_prompt(t_minishell *data)
 {
 	while (data->run)
 	{
 		ft_printf(""GREEN"➜  "CYAN"minishell "RESET"");
 		data->line = ft_strnew(1);
 		get_line(&data->line);
-		split_line(data);
-		line_iteration(data);
+		if (ft_strlen(data->line) > 1)
+		{
+			split_line(data);
+			split_all_command(data);
+			if (!command_router_no_process(data, get_last_command(data)))
+				line_iteration(data);
+		}
+		else if (!ft_strlen(data->line))
+			exit_normal(data);
 		reset_command(data);
 	}
 }
 
-int		main(int argc, char **argv, char **envp)
+int					main(int argc, char **argv, char **envp)
 {
 	t_minishell	data;
 
 	(void)argc;
 	(void)argv;
 	init_minishell(&data);
+	ignore_signal(&data);
 	init_env(&data, envp);
 	set_prompt(&data);
 	return (0);

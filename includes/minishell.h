@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 15:33:22 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 18:22:40 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct	s_minishell
 	t_list	*env;
 	t_list	*cmd;
 	int		run;
+	int		signal_set;
 	int		separator;
 	int		s_quote;
 	int		d_quote;
@@ -82,13 +83,10 @@ void	redirection_router(t_minishell *data, t_command *cmd);
 char	*remove_spaces(char *str);
 char	*dup_first_word(char *str);
 void	replace_variables(t_minishell *data, t_command *cmd);
-void	delete_arg(void *element);
 int		create_command(t_minishell *data, int start, int end);
-void	create_new_arg(t_list **lst_arg, char *arg, int start, int end);
 void	free_tab(char **tab);
 
 int		split_line(t_minishell *data);
-void	split_arg(t_list **lst_arg, char *arg);
 void	split_command(t_command *cmd);
 
 t_list	*duplicate_env(t_minishell *data);
@@ -102,22 +100,28 @@ void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2]
 void	handle_fd(t_command *cmd, int p_fd[2], int c_fd[2]);
 void	close_fds(int p_fd[2], int c_fd[2]);
 /* ECHO */
-void	 command_echo(t_minishell *data, t_command *cmd, char *str);
+void	command_echo(t_minishell *data, t_command *cmd);
 /* CD */
 int		command_cd(t_minishell *data, t_command *cmd);
 /* PWD */
-int		print_cwd(void);
+int		command_pwd(t_minishell *data, t_command *cmd);
 char	*return_cwd(void);
 /* EXPORT */
-void	ft_export(t_minishell *data, char *cmd);
+void	ft_export(t_minishell *data, char **arg);
 /* UNSET */
+void	unset(t_minishell *data, char **arg);
 /* ENV */
 void	init_env(t_minishell *data, char **env);
-void	unset(t_minishell *data, char *arg);
 void	env(t_minishell *data);
 /* EXIT */
 void	exit_normal(t_minishell *data);
 void	exit_error(t_minishell *data);
+/* SIGNAL */
+void	(*SIGINT_handler)(int);
+void	(*SIGQUIT_handler)(int);
+void	ignore_signal(t_minishell *data);
+void	restore_signals_in_child(t_minishell *data);
+
 
 int		is_export_arg_empty(char *arg);
 int		is_export_char(char c);

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:34:32 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 16:00:47 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/25 18:39:12 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,18 @@ void	update_variables(t_minishell *data, char *old_path)
 {
 	char	*temp;
 	char	*new_path;
+	char	*tab[3];
 
+	tab[0] = NULL;
+	tab[1] = NULL;
+	tab[2] = NULL;
 	if (!(temp = ft_strjoin("OLDPWD=", old_path)))
 	{
 		free(old_path);
 		return ;
 	}
-	ft_export(data, temp);
+	tab[1] = temp;
+	ft_export(data, tab);
 	free(old_path);
 	free(temp);
 	if (!(new_path = return_cwd()))
@@ -45,7 +50,8 @@ void	update_variables(t_minishell *data, char *old_path)
 		free(new_path);
 		return ;
 	}
-	ft_export(data, temp);
+	tab[1] = temp;
+	ft_export(data, tab);
 	free(new_path);
 	free(temp);
 }
@@ -55,6 +61,7 @@ int		command_cd(t_minishell *data, t_command *cmd)
 	char	*path;
 	char	*old_path;
 
+	data->exit = 0;
 	if (!(path = get_new_path(data, cmd)))
 		return (-1);
 	if (!(old_path = return_cwd()))

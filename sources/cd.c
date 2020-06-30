@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:34:32 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 18:39:12 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/30 20:47:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ void	update_variables(t_minishell *data, char *old_path)
 	free(temp);
 }
 
+static void	print_error_cd(char *s1, char *s2, char *err)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(s1, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(s2, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(err, 2);
+	ft_putstr_fd("\n", 2);
+}
+
 int		command_cd(t_minishell *data, t_command *cmd)
 {
 	char	*path;
@@ -72,7 +83,7 @@ int		command_cd(t_minishell *data, t_command *cmd)
 	if (chdir(path) == -1)
 	{
 		data->exit = 1;
-		ft_printf("minishell: %s: %s: %s\n", cmd->args[0], cmd->args[1], strerror(errno));
+		print_error_cd(cmd->args[0], cmd->args[1], strerror(errno));
 		free(path);
 		free(old_path);
 		return (-1);

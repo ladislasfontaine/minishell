@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 17:18:58 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/30 19:07:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,31 +82,18 @@ static void			split_all_command(t_minishell *data)
 	}
 }
 
-static t_command	*get_last_command(t_minishell *data)
-{
-	t_command	*cmd;
-	t_list		*element;
-
-	element = data->cmd;
-	while (element->next)
-		element = element->next;
-	cmd = (t_command*)element->content;
-	return (cmd);
-}
-
 static void			set_prompt(t_minishell *data)
 {
 	while (data->run)
 	{
-		ft_printf(""GREEN"➜  "CYAN"minishell "RESET"");
+		ft_putstr_fd(""GREEN"➜  "CYAN"minishell "RESET"", 2);
 		data->line = ft_strnew(1);
 		get_line(&data->line);
 		if (ft_strlen(data->line) > 1)
 		{
 			split_line(data);
 			split_all_command(data);
-			if (!command_router_no_process(data, get_last_command(data)))
-				line_iteration(data);
+			line_iteration(data);
 		}
 		else if (!ft_strlen(data->line))
 			exit_normal(data);

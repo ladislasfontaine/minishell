@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:13:10 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 17:04:31 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/30 18:36:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	del_command(void *element)
 		free_tab(temp->args);
 	if (temp->cmd)
 		free(temp->cmd);
+	if (temp)
+		free(temp);
 }
 
 void	del_variable(void *element)
@@ -32,6 +34,8 @@ void	del_variable(void *element)
 		free(temp->key);
 	if (temp->value)
 		free(temp->value);
+	if (temp)
+		free(temp);
 }
 
 void	clear_all(t_minishell *data)
@@ -57,6 +61,6 @@ void	exit_error(t_minishell *data)
 void	exit_normal(t_minishell *data)
 {
 	clear_all(data);
-	ft_printf("exit\n");
+	ft_putstr_fd("exit\n", 2);
 	exit(0);
 }

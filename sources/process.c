@@ -6,11 +6,27 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:03:34 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 18:43:58 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/06/30 19:29:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_command		*get_last_command(t_list *element)
+{
+	t_command	*cmd;
+
+	cmd = (t_command*)element->content;
+	while (element->next)
+	{
+		cmd = (t_command*)element->content;
+		if (cmd->separator == PIPE)
+			element = element->next;
+		else 
+			break ;
+	}
+	return (cmd);
+}
 
 void	line_iteration(t_minishell *data)
 {
@@ -22,6 +38,23 @@ void	line_iteration(t_minishell *data)
 	while (element)
 	{
 		cmd = (t_command *)element->content;
+		if (!cmd->previous ||
+			(cmd->previous && cmd->previous->separator == SEMI_COLON))
+		{
+			if (command_router_no_process(data, get_last_command(element)))
+			{
+				while (element->next && cmd->separator == PIPE)
+				{
+					element = element->next;
+					cmd = (t_command *)element->content;
+				}
+				if (element->next)
+					element = element->next;
+				else
+					element = NULL;
+				continue ;
+			}
+		}
 		if (pipe(p_fd))
 			return ;
 		if (!command_router_no_process(data, cmd))
@@ -61,27 +94,22 @@ void	execute_parent(t_minishell *data, t_list *element, pid_t cpid, int p_fd[2])
 
 	if (pipe(c_fd) < 0)
 		return ;
-	cmd = (t_command *)element->content;
+	cmd = (t_command *)element->content;	
+	if (cmd->separator == PIPE)
+		create_process(data, element->next, p_fd, c_fd);
+	close_fds(p_fd, c_fd);	
 	if (waitpid(cpid, &status, WUNTRACED | WCONTINUED) == -1)
 		exit_error(data);
 	if (WIFEXITED(status))
 		data->exit = WEXITSTATUS(status);
-	if (cmd->separator == PIPE)
-	{
-		create_process(data, element->next, p_fd, c_fd);
-	}
-	close_fds(p_fd, c_fd);
 }
 
 void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2])
 {
 	pid_t		cpid;
 	t_command	*cmd;
-	char		*str;
 
 	cmd = (t_command *)element->content;
-	str = ft_strtrim(cmd->cmd, " ");
-	(void)str;
 	if ((cpid = fork()) == -1)
 	{
 		ft_printf("%s\n", strerror(errno));

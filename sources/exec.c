@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 11:24:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 19:03:36 by memartin         ###   ########.fr       */
+/*   Updated: 2020/06/30 17:15:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	execute_binary(t_minishell *data, char **argv, char *path)
 	if ((cpid = fork()) == -1)
 	{
 		ft_printf("%s\n", strerror(errno));
+		free_tab(envp);
 		exit_error(data);
 	}
 	if (cpid == 0)
@@ -70,11 +71,14 @@ void	execute_binary(t_minishell *data, char **argv, char *path)
 		{
 			print_error_exec_errno(argv[0], strerror(errno));
 			data->exit = 1;
+			free_tab(envp);
 			exit(1);
 		}
+		free_tab(envp);
 	}
 	else
 	{
+		free_tab(envp);
 		if (waitpid(cpid, &status, WUNTRACED | WCONTINUED) == -1)
 			exit_error(data);
 		if (WIFEXITED(status))

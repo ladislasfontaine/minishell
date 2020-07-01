@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:02:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 18:43:00 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/01 19:10:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	command_router(t_minishell *data, t_command *command)
 	char	*cmd;
 
 	cmd = command->args[0];
+	if (!cmd)
+		return ;
 	if (!ft_strcmp(cmd, "pwd"))
 		command_pwd(data, command);
 	else if (!ft_strcmp(cmd, "echo"))
@@ -34,6 +36,8 @@ int		command_router_no_process(t_minishell *data, t_command *command)
 	char	*cmd;
 
 	cmd = command->args[0];
+	if (!cmd)
+		return (0);
 	if (ft_strequ(command->args[0], "cd") && command->separator != PIPE)
 		command_cd(data, command);
 	else if (!ft_strcmp(cmd, "unset") && command->separator != PIPE)

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/30 19:07:41 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/01 19:14:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int			get_line(char **line)
 	return (1);
 }
 
-static void			split_all_command(t_minishell *data)
+static int			split_all_command(t_minishell *data)
 {
 	t_list		*element;
 	t_command	*cmd;
@@ -80,6 +80,19 @@ static void			split_all_command(t_minishell *data)
 		redirection_router(data, cmd);
 		element = element->next;
 	}
+	element = data->cmd;
+	while (element)
+	{
+		cmd = (t_command*)element->content;
+		if (!cmd->args[0] && ((cmd->previous && cmd->previous->separator == PIPE)
+			|| cmd->separator == PIPE))
+		{
+			ft_putstr_fd("parse error near '|'\n", 2);
+			return (0);
+		}
+		element = element->next;
+	}
+	return (1);
 }
 
 static void			set_prompt(t_minishell *data)
@@ -92,8 +105,8 @@ static void			set_prompt(t_minishell *data)
 		if (ft_strlen(data->line) > 1)
 		{
 			split_line(data);
-			split_all_command(data);
-			line_iteration(data);
+			if (split_all_command(data))
+				line_iteration(data);
 		}
 		else if (!ft_strlen(data->line))
 			exit_normal(data);

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:38:59 by memartin          #+#    #+#             */
-/*   Updated: 2020/06/25 18:41:47 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/01 18:45:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void		delete_one_env(void	*element)
 		free(var->key);
 	if (var->value)
 		free(var->value);
+	if (var)
+		free(var);
 }
 
 static void		search_unset(t_minishell *data, char *target)

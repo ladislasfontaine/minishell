@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/06 12:35:29 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/06 15:05:57 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	unset(t_minishell *data, char **arg);
 void	init_env(t_minishell *data, char **env);
 void	env(t_minishell *data);
 /* EXIT */
+void	command_exit(t_minishell *data, t_command *cmd);
 void	exit_normal(t_minishell *data);
 void	exit_error(t_minishell *data);
 /* SIGNAL */

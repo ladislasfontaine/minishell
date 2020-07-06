@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:02:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/06 11:47:21 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/06 14:39:55 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		command_router_no_process(t_minishell *data, t_command *command)
 		command->separator != PIPE)
 		ft_export(data, command->args);
 	else if (!ft_strcmp(cmd, "exit") && command->separator != PIPE)
-		exit_normal(data);
+		command_exit(data, command);
 	else
 		return (0);
 	return (1);

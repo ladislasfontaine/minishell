@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:19:09 by memartin          #+#    #+#             */
-/*   Updated: 2020/06/25 19:01:58 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/06 11:02:57 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int		check_arg(char *s)
 {
-	if (!ft_isalpha(*s++))
+	if (!ft_isalpha(*s++) || s[0] == '=')
 		return (0);
 	while (*s && (ft_isalnum(*s) || *s == '_'))
 		s++;
@@ -81,13 +81,18 @@ static void		add_to_env(t_minishell *data, char **arg)
 		{
 			while (arg[j][i] && arg[j][i] != '=')
 				i++;
+			if (!arg[j][i])
+			{
+				j++;
+				continue ;
+			}
 			add_new_var_to_env(data, arg[j], i);
 		}
 		else
 		{
-			ft_putstr_fd("export: not an identifier: \"", 2);
+			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd(arg[j], 2);
-			ft_putstr_fd("\"\n", 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			data->exit = 1;
 		}
 		j++;

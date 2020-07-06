@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 19:04:15 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/06 12:35:29 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	free_tab(char **tab);
 
 int		split_line(t_minishell *data);
 void	split_command(t_command *cmd);
+int		process_command(t_minishell *data, t_list *element);
 
 t_list	*duplicate_env(t_minishell *data);
 void	print_export_empty(void *element);

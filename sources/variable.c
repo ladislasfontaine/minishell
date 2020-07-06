@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:58:27 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 15:48:52 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/06 12:38:58 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ char	*get_var_key(char *str, int dollar, int *bracket, int d_quote)
 		*bracket = 1;
 	}
 	else if (d_quote)
-		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' && str[dollar + 1 + j] != '\"')
+		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' && str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' && str[dollar + 1 + j] != '\'' && str[dollar + 1 + j] != '\"' && str[dollar + 1 + j] != '\"')
 			j++;
 	else
-		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ')
+		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' && str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' && str[dollar + 1 + j] != '\'' && str[dollar + 1 + j] != '\"')
 			j++;
 	return (ft_substr(str, dollar + *bracket + 1, j));
 }
@@ -82,9 +82,16 @@ void	replace_variables(t_minishell *data, t_command *cmd)
 			my_var.key = NULL;
 			my_var.value = NULL;
 			my_var.local = 0;
-			if (!(my_var.key = get_var_key(cmd->cmd, i, &my_var.local, cmd->d_quote)))
+			if (cmd->cmd[i + 1] && cmd->cmd[i + 1] == '?')
+				my_var.key = ft_strdup("?");
+			else if (!(my_var.key = get_var_key(cmd->cmd, i, &my_var.local, cmd->d_quote)))
 				exit_error(data);
-			if (ft_strequ(my_var.key, "?"))
+			if (ft_strlen(my_var.key) == 0)
+			{
+				i++;
+				continue ;
+			}
+			else if (ft_strequ(my_var.key, "?"))
 			{
 				if (!(my_var.value = ft_itoa(data->exit)))
 				{

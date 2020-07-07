@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:13:10 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/06 15:20:47 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/07 06:22:51 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	clear_all(t_minishell *data)
 void	exit_error(t_minishell *data)
 {
 	clear_all(data);
-	exit(1);
+	exit(data->exit);
 }
 
 void	exit_normal(t_minishell *data)
@@ -93,7 +93,7 @@ void	command_exit(t_minishell *data, t_command *cmd)
 			ft_putstr_fd(cmd->args[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			clear_all(data);
-			exit(255);
+			exit(2);
 		}
 		else if (cmd->args[2])
 		{

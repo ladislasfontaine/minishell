@@ -157,6 +157,11 @@ exec_test "ls -Z"
 exec_test "cd gdhahahad"
 exec_test "ls -la | wtf"
 
+# ADDED
+exec_test "echo $H\OME"
+exec_test "echo \\\\\\\\"
+exec_test "echo \\\\\\\\\\\\\\\\"
+
 printf ">>> SCORE: $SCORE/$TOTAL <<<\n"
 
 rm lol ls test

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:03:34 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/06 12:38:01 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/07 06:22:56 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,10 @@ void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2]
 	cmd = (t_command *)element->content;
 	if ((cpid = fork()) == -1)
 	{
-		ft_printf("%s\n", strerror(errno));
+		ft_putstr_fd("minishell: fork: ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+		data->exit = 128;
 		exit_error(data);
 	}
 	if (cpid == 0)

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 11:02:04 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 18:21:06 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/15 17:19:18 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,15 @@ int		create_redirection(t_minishell *data, t_command *cmd, int i, int flags)
 	return (fd);
 }
 
-void	redirection_router(t_minishell *data, t_command *cmd)
+int		redirection_router(t_minishell *data, t_command *cmd)
 {
 	int		i;
 
 	i = 0;
 	while (cmd->args[i] && cmd->args[i + 1])
 	{
+		if (parse_chevron(data, cmd->args[i], cmd->args[i + 1]))
+			return (0);
 		if (ft_strequ(cmd->args[i], ">") && cmd->out != -1)
 			cmd->out = create_redirection(data, cmd, i, O_TRUNC | O_RDWR | O_CREAT);
 		else if (ft_strequ(cmd->args[i], ">>") && cmd->out != -1)
@@ -80,4 +82,10 @@ void	redirection_router(t_minishell *data, t_command *cmd)
 		else
 			i++;
 	}
+	if (cmd->args[i] && !cmd->args[i + 1])
+	{
+		if (check_first_chevron(data, cmd->args[i]))
+			return (0);
+	}
+	return (1);
 }

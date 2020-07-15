@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/15 18:39:17 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/15 21:03:00 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,38 +64,12 @@ static int			split_all_command(t_minishell *data)
 		cmd = (t_command*)element->content;
 		replace_variables(data, cmd);
 		split_command(cmd);
-		redirection_router(data, cmd);
-		element = element->next;
-	}
-	element = data->cmd;
-	while (element)
-	{
-		cmd = (t_command*)element->content;
-		if (!cmd->args[0] && ((cmd->previous && cmd->previous->separator == PIPE)
-			|| cmd->separator == PIPE))
-		{
-			ft_putstr_fd("parse error near '|'\n", 2);
+		if (!redirection_router(data, cmd))
 			return (0);
-		}
 		element = element->next;
 	}
-	return (1);
-}
-
-int					process_command(t_minishell *data, t_list *element)
-{
-	t_command	*cmd;
-
-	cmd = (t_command*)element->content;
-	replace_variables(data, cmd);
-	split_command(cmd);
-	redirection_router(data, cmd);
-	if (!cmd->args[0] && ((cmd->previous && cmd->previous->separator == PIPE)
-		|| cmd->separator == PIPE))
-	{
-		ft_putstr_fd("parse error near '|'\n", 2);
+	if (check_pipe_semi_collon(data))
 		return (0);
-	}
 	return (1);
 }
 

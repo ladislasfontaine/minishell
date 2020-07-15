@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/27 17:05:38 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/23 14:23:26 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/15 17:38:20 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char		**ft_split_special_redir(char const *s, char c)
 	int	s_quote;
 	int	d_quote;
 
-	if (!(tab = (char **)malloc(sizeof(char *) * (w_count(s, c) + 1))))
+	if (!(tab = (char **)malloc(sizeof(char *) * (w_count(s, c) + 2))))
 		return (NULL);
 	s_quote = 0;
 	d_quote = 0;

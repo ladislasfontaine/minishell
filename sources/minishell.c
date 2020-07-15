@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/15 17:00:03 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/15 18:25:58 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,8 @@ static int			split_all_command(t_minishell *data)
 			return (0);
 		element = element->next;
 	}
-	element = data->cmd;
-	while (element)
-	{
-		cmd = (t_command*)element->content;
-		if (!cmd->args[0] && ((cmd->previous && cmd->previous->separator == PIPE)
-			|| cmd->separator == PIPE))
-		{
-			ft_putstr_fd("parse error near '|'\n", 2);
-			data->exit = 2;
-			return (0);
-		}
-		element = element->next;
-	}
+	if (check_pipe_semi_collon(data))
+		return (0);
 	return (1);
 }
 

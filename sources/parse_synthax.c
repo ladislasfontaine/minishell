@@ -6,11 +6,52 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 16:24:27 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/15 17:15:21 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/15 18:26:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	check_semi_collon(t_minishell *data)
+{
+	int			i;
+
+	i = 0;
+	while (data->line[i])
+	{
+		if (data->line[i] == ';' && data->line[i + 1] == ';')
+		{
+			print_error_parse_near(";;");
+			data->exit = 2;
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int			check_pipe_semi_collon(t_minishell *data)
+{
+	t_list		*element;
+	t_command	*cmd;
+
+	if (check_semi_collon(data))
+		return (1);
+	element = data->cmd;
+	while (element)
+	{
+		cmd = (t_command*)element->content;
+		if (!cmd->args[0] && ((cmd->previous && cmd->previous->separator == PIPE)
+			|| cmd->separator == PIPE))
+		{
+			print_error_parse_near("|");
+			data->exit = 2;
+			return (1);
+		}
+		element = element->next;
+	}
+	return (0);
+}
 
 int			check_first_chevron(t_minishell *data, char *arg)
 {

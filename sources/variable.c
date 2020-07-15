@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:58:27 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/06 12:38:58 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/15 19:02:37 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ char	*get_var_key(char *str, int dollar, int *bracket, int d_quote)
 		*bracket = 1;
 	}
 	else if (d_quote)
-		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' && str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' && str[dollar + 1 + j] != '\'' && str[dollar + 1 + j] != '\"' && str[dollar + 1 + j] != '\"')
+		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' && str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' && str[dollar + 1 + j] != '\\' && str[dollar + 1 + j] != '\'' && str[dollar + 1 + j] != '\"' && str[dollar + 1 + j] != '\"')
 			j++;
 	else
-		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' && str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' && str[dollar + 1 + j] != '\'' && str[dollar + 1 + j] != '\"')
+		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' && str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' && str[dollar + 1 + j] != '\\' && str[dollar + 1 + j] != '\'' && str[dollar + 1 + j] != '\"')
 			j++;
 	return (ft_substr(str, dollar + *bracket + 1, j));
 }
@@ -71,13 +71,21 @@ void	replace_key_by_value(t_minishell *data, t_command *cmd, t_var my_var, int d
 void	replace_variables(t_minishell *data, t_command *cmd)
 {
 	int		i;
+	int		esc;
 	t_var	my_var;
 
 	i = 0;
+	esc = 0;
 	while (cmd->cmd[i])
 	{
 		check_quotes(cmd->cmd[i], &cmd->s_quote, &cmd->d_quote);
-		if (cmd->cmd[i] == '$' && !cmd->s_quote)
+		if (!esc && cmd->cmd[i] == '\\' && !cmd->s_quote)
+		{
+			esc = 1;
+			i++;
+			continue ;
+		}
+		if (!esc && cmd->cmd[i] == '$' && !cmd->s_quote)
 		{
 			my_var.key = NULL;
 			my_var.value = NULL;
@@ -110,6 +118,7 @@ void	replace_variables(t_minishell *data, t_command *cmd)
 			free(my_var.value);
 		}
 		i++;
+		esc = 0;
 	}
 	cmd->s_quote = 0;
 	cmd->d_quote = 0;

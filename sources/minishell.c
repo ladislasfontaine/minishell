@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/06 12:37:00 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/15 17:00:03 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ static int			split_all_command(t_minishell *data)
 		cmd = (t_command*)element->content;
 		replace_variables(data, cmd);
 		split_command(cmd);
-		redirection_router(data, cmd);
+		if (!redirection_router(data, cmd))
+			return (0);
 		element = element->next;
 	}
 	element = data->cmd;
@@ -88,26 +89,10 @@ static int			split_all_command(t_minishell *data)
 			|| cmd->separator == PIPE))
 		{
 			ft_putstr_fd("parse error near '|'\n", 2);
+			data->exit = 2;
 			return (0);
 		}
 		element = element->next;
-	}
-	return (1);
-}
-
-int					process_command(t_minishell *data, t_list *element)
-{
-	t_command	*cmd;
-
-	cmd = (t_command*)element->content;
-	replace_variables(data, cmd);
-	split_command(cmd);
-	redirection_router(data, cmd);
-	if (!cmd->args[0] && ((cmd->previous && cmd->previous->separator == PIPE)
-		|| cmd->separator == PIPE))
-	{
-		ft_putstr_fd("parse error near '|'\n", 2);
-		return (0);
 	}
 	return (1);
 }

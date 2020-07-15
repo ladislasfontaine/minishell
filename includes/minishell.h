@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/06 15:05:57 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/15 17:20:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	reset_command(t_minishell *data);
 void	line_iteration(t_minishell *data);
 void	command_router(t_minishell *data, t_command *command);
 int		command_router_no_process(t_minishell *data, t_command *command);
-void	redirection_router(t_minishell *data, t_command *cmd);
+int		redirection_router(t_minishell *data, t_command *cmd);
 char	*remove_spaces(char *str);
 char	*dup_first_word(char *str);
 void	replace_variables(t_minishell *data, t_command *cmd);
@@ -89,11 +89,13 @@ void	free_tab(char **tab);
 int		split_line(t_minishell *data);
 void	split_command(t_command *cmd);
 int		process_command(t_minishell *data, t_list *element);
-
+int		parse_chevron(t_minishell *data, char *arg1, char *arg2);
+int		check_first_chevron(t_minishell *data, char *arg);
 t_list	*duplicate_env(t_minishell *data);
 void	print_export_empty(void *element);
 
 void	print_error_cmd_not_found(char *s);
+void	print_error_parse_near(char *s1);
 void	print_error_exec_errno(char *s1, char *s2);
 
 void	command_execute(t_minishell *data, t_command *cmd);

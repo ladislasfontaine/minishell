@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/15 18:27:35 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/16 12:50:03 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct	s_minishell
 	int		exit;
 }				t_minishell;
 
+int	g_signum;
+
 void	init_minishell(t_minishell *data);
 int		init_command(t_command **command, int sep, char *sub, t_list *previous);
 void	del_command(void *element);
@@ -95,7 +97,7 @@ int		check_first_chevron(t_minishell *data, char *arg);
 t_list	*duplicate_env(t_minishell *data);
 void	print_export_empty(void *element);
 
-void	print_error_cmd_not_found(char *s);
+void	print_error_cmd_not_found(t_minishell *data, char *s);
 void	print_error_parse_near(char *s1);
 void	print_error_exec_errno(char *s1, char *s2);
 

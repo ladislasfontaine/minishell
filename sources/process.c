@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:03:34 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/07 06:22:56 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/16 12:49:03 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,12 @@ void	execute_child(t_minishell *data, t_command *cmd, t_list *element)
 			command_router(data, cmd);
 	}
 	free(tmp);
-	exit(data->exit);
+	if (g_signum == SIGINT)
+		exit(130);
+	else if (g_signum == SIGQUIT)
+		exit(131);
+	else
+		exit(data->exit);
 }
 
 void	execute_parent(t_minishell *data, t_list *element, pid_t cpid, int p_fd[2])

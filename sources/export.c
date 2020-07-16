@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:19:09 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/06 11:02:57 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/16 13:18:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,37 @@
 
 static int		check_arg(char *s)
 {
-	if (!ft_isalpha(*s++) || s[0] == '=')
+	if (!ft_isalpha(*s) || s[0] == '=')
 		return (0);
+	s++;
 	while (*s && (ft_isalnum(*s) || *s == '_'))
 		s++;
-	if (*s++ != '=')
-		return (0);
-	while (*s && is_export_char(*s))
+	if (*s == '+')
 		s++;
-	if (*s)
+	if (*s != '=' && *s != '\0')
+		return (0);
+	s++;
+	while (*s != '\0' && is_export_char(*s))
+		s++;
+	if (*s != '\0')
 		return (0);
 	return (1);
 }
 
-static int		is_key_exist(t_minishell *data, char *key, char *value)
+static char		*ft_strjoinfree(char *s1, char *s2)
+{
+	char		*tmp;
+
+	tmp = ft_strjoin(s1, s2);
+	if (s1)
+		free(s1);
+	if (s2)
+		free(s2);
+	return (tmp);
+}
+
+static int		is_key_exist
+	(t_minishell *data, char *key, char *value, int plus)
 {
 	t_var	*var;
 	t_list	*element;
@@ -38,8 +55,13 @@ static int		is_key_exist(t_minishell *data, char *key, char *value)
 		var = (t_var*)element->content;
 		if (!ft_strcmp(key, var->key))
 		{
-			ft_strdel(&var->value);
-			var->value = value;
+			if (plus)
+				var->value = ft_strjoinfree(var->value, value);
+			else
+			{
+				ft_strdel(&var->value);
+				var->value = value;
+			}
 			ft_strdel(&key);
 			return (1);
 		}
@@ -48,7 +70,8 @@ static int		is_key_exist(t_minishell *data, char *key, char *value)
 	return (0);
 }
 
-static void		add_new_var_to_env(t_minishell *data, char *arg, int i)
+static void		add_new_var_to_env
+	(t_minishell *data, char *arg, int i, int plus)
 {
 	t_list		*new;
 	t_var		*var;
@@ -56,8 +79,8 @@ static void		add_new_var_to_env(t_minishell *data, char *arg, int i)
 	char		*value;
 
 	key = ft_substr(arg, 0, i);
-	value = ft_substr(arg, i + 1, ft_strlen(arg) - i - 1);
-	if (is_key_exist(data, key, value))
+	value = ft_substr(arg, i + 1 + plus, ft_strlen(arg) - i - 1);
+	if (is_key_exist(data, key, value, plus))
 		return ;
 	if (!(var = (t_var*)malloc(sizeof(t_var))))
 		exit_error(data);
@@ -72,27 +95,24 @@ static void		add_to_env(t_minishell *data, char **arg)
 {
 	int		i;
 	int		j;
+	int		plus;
 
 	j = 1;
 	while (arg[j])
 	{
 		i = 0;
+		plus = 0;
 		if (check_arg(arg[j]))
 		{
-			while (arg[j][i] && arg[j][i] != '=')
+			while (arg[j][i] && arg[j][i] != '=' && arg[j][i] != '+')
 				i++;
-			if (!arg[j][i])
-			{
-				j++;
-				continue ;
-			}
-			add_new_var_to_env(data, arg[j], i);
+			if (arg[j][i] == '+')
+				plus = 1;
+			add_new_var_to_env(data, arg[j], i, plus);
 		}
 		else
 		{
-			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(arg[j], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
+			print_error_export_id(arg[j]);
 			data->exit = 1;
 		}
 		j++;

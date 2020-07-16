@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:34:32 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/30 20:47:52 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/15 18:35:28 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int		command_cd(t_minishell *data, t_command *cmd)
 		print_error_cd(cmd->args[0], cmd->args[1], strerror(errno));
 		free(path);
 		free(old_path);
+		data->exit = 1;
 		return (-1);
 	}
 	free(path);

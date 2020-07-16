@@ -6,11 +6,18 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 18:07:34 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/15 16:22:22 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/15 19:55:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void		print_error_export_id(char *s)
+{
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(s, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+}
 
 void		print_error_cmd_not_found(char *s)
 {

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 17:17:23 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/16 16:36:51 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/16 22:40:35 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	ignore_signal(t_minishell *data)
 {
 	data->signal_set = 1;
-	SIGINT_handler = signal(SIGINT, SIG_IGN);
-	SIGQUIT_handler = signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	test_func(int signum)

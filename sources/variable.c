@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:58:27 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 16:41:19 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/16 18:21:22 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,39 @@ void	replace_key_by_value
 	cmd->cmd = new_cmd;
 }
 
+void	replace_action(t_minishell *data, t_command *cmd, int *i)
+{
+	t_var	var;
+
+	var.key = NULL;
+	var.value = NULL;
+	var.local = 0;
+	if (cmd->cmd[*i + 1] && cmd->cmd[*i + 1] == '?')
+		var.key = ft_strdup("?");
+	else if (!(var.key = get_var_key(cmd->cmd, *i, &var.local, cmd->d_quote)))
+		exit_error(data);
+	if (ft_strlen(var.key) == 0)
+	{
+		*i += 1;
+		return ;
+	}
+	else if (ft_strequ(var.key, "?"))
+	{
+		if (!(var.value = ft_itoa(data->exit)))
+			free_exit_error(data, var.key);
+	}
+	else if (!(var.value = get_var_value(data, var.key)))
+		free_exit_error(data, var.key);
+	replace_key_by_value(data, cmd, var, *i);
+	*i += ft_strlen(var.value) - 1;
+	free(var.key);
+	free(var.value);
+}
+
 void	replace_variables(t_minishell *data, t_command *cmd)
 {
 	int		i;
 	int		esc;
-	t_var	my_var;
 
 	i = 0;
 	esc = 0;
@@ -95,37 +123,7 @@ void	replace_variables(t_minishell *data, t_command *cmd)
 			continue ;
 		}
 		if (!esc && cmd->cmd[i] == '$' && !cmd->s_quote)
-		{
-			my_var.key = NULL;
-			my_var.value = NULL;
-			my_var.local = 0;
-			if (cmd->cmd[i + 1] && cmd->cmd[i + 1] == '?')
-				my_var.key = ft_strdup("?");
-			else if (!(my_var.key = get_var_key(cmd->cmd, i, &my_var.local, cmd->d_quote)))
-				exit_error(data);
-			if (ft_strlen(my_var.key) == 0)
-			{
-				i++;
-				continue ;
-			}
-			else if (ft_strequ(my_var.key, "?"))
-			{
-				if (!(my_var.value = ft_itoa(data->exit)))
-				{
-					free(my_var.key);
-					exit_error(data);
-				}
-			}
-			else if (!(my_var.value = get_var_value(data, my_var.key)))
-			{
-				free(my_var.key);
-				exit_error(data);
-			}
-			replace_key_by_value(data, cmd, my_var, i);
-			i += ft_strlen(my_var.value) - 1;
-			free(my_var.key);
-			free(my_var.value);
-		}
+			replace_action(data, cmd, &i);
 		i++;
 		esc = 0;
 	}

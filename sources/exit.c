@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:13:10 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 15:28:07 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/16 18:17:29 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void			exit_error(t_minishell *data)
 {
 	clear_all(data);
 	exit(data->exit);
+}
+
+void			free_exit_error(t_minishell *data, char *str)
+{
+	free(str);
+	exit_error(data);
 }
 
 void			exit_normal(t_minishell *data)

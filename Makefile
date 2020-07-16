@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/15 15:08:42 by lafontai          #+#    #+#              #
-#    Updated: 2020/07/16 16:24:37 by memartin         ###   ########.fr        #
+#    Updated: 2020/07/16 21:56:12 by lafontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,9 @@ SRCS	= $(addprefix $(FOLDER), \
 			parse_synthax.c \
 			delete.c \
 			execute_child_parent.c \
+			split_redirection.c \
+			split_special.c \
+			split_utils.c \
 			)
 
 OBJS	= $(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:02:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/06 14:39:55 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/16 15:50:21 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	command_router(t_minishell *data, t_command *command)
 		command_echo(data, command);
 	else if (!ft_strcmp(cmd, "env"))
 		env(data);
-	else if	(!ft_strcmp(cmd, "export"))
+	else if (!ft_strcmp(cmd, "export"))
 		ft_export(data, command->args);
 	else
 		command_execute(data, command);
@@ -42,7 +42,7 @@ int		command_router_no_process(t_minishell *data, t_command *command)
 		command_cd(data, command);
 	else if (!ft_strcmp(cmd, "unset") && command->separator != PIPE)
 		unset(data, command->args);
-	else if	(!ft_strcmp(cmd, "export") && command->args[1] &&
+	else if (!ft_strcmp(cmd, "export") && command->args[1] &&
 		command->separator != PIPE)
 		ft_export(data, command->args);
 	else if (!ft_strcmp(cmd, "exit") && command->separator != PIPE)

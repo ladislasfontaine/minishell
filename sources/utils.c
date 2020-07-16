@@ -6,7 +6,7 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 14:03:17 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/15 19:24:15 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/16 16:38:17 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int			is_export_arg_empty(char *arg)
 
 int			is_export_char(char c)
 {
-	if (ft_isalnum(c) || c == '#' || c == '.' || c == '/' || c == '_' || 
-		c == '-' || c == '*' || c == ':' || c == '@' || c == '^' || c == '+' || 
+	if (ft_isalnum(c) || c == '#' || c == '.' || c == '/' || c == '_' ||
+		c == '-' || c == '*' || c == ':' || c == '@' || c == '^' || c == '+' ||
 		c == '+' || c == '%' || c == '?' || c == ',' || c == '=' || c == ' ')
 		return (1);
 	return (0);
@@ -32,7 +32,7 @@ int			is_export_char(char c)
 
 int			is_whitespace(char c)
 {
-	if (c == ' '|| c == '\t')
+	if (c == ' ' || c == '\t')
 		return (1);
 	return (0);
 }

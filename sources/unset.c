@@ -6,13 +6,13 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 12:38:59 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/01 18:45:51 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/16 16:37:42 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void		delete_one_env(void	*element)
+static void		delete_one_env(void *element)
 {
 	t_var		*var;
 
@@ -30,7 +30,7 @@ static void		search_unset(t_minishell *data, char *target)
 	t_list		*element;
 	t_list		*tmp;
 	t_var		*var;
-	
+
 	element = data->env;
 	while (element->next)
 	{

@@ -6,18 +6,25 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 11:02:04 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/15 17:19:18 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/16 16:34:57 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	split_command(t_command *cmd)
+void			split_command(t_command *cmd)
 {
 	cmd->args = ft_split_special_redir(cmd->cmd, ' ');
 }
 
-void	remove_redirection(t_minishell *data, t_command *cmd, int i)
+static void		remove_redirection_1(t_command *cmd, char **tab, int k)
+{
+	tab[k] = 0;
+	free_tab(cmd->args);
+	cmd->args = tab;
+}
+
+void			remove_redirection(t_minishell *data, t_command *cmd, int i)
 {
 	char	**tab;
 	int		j;
@@ -42,12 +49,11 @@ void	remove_redirection(t_minishell *data, t_command *cmd, int i)
 		}
 		j++;
 	}
-	tab[k] = 0;
-	free_tab(cmd->args);
-	cmd->args = tab;
+	remove_redirection_1(cmd, tab, k);
 }
 
-int		create_redirection(t_minishell *data, t_command *cmd, int i, int flags)
+int				create_redirection
+	(t_minishell *data, t_command *cmd, int i, int flags)
 {
 	int		fd;
 
@@ -56,7 +62,8 @@ int		create_redirection(t_minishell *data, t_command *cmd, int i, int flags)
 		print_error_exec_errno(cmd->args[i + 1], strerror(errno));
 		data->stop = 1;
 	}
-	if ((ft_strequ(cmd->args[i], ">") || ft_strequ(cmd->args[i], ">>")) && cmd->out)
+	if ((ft_strequ(cmd->args[i], ">") ||
+		ft_strequ(cmd->args[i], ">>")) && cmd->out)
 		close(cmd->out);
 	if (ft_strequ(cmd->args[i], "<") && cmd->in)
 		close(cmd->in);
@@ -64,7 +71,7 @@ int		create_redirection(t_minishell *data, t_command *cmd, int i, int flags)
 	return (fd);
 }
 
-int		redirection_router(t_minishell *data, t_command *cmd)
+int				redirection_router(t_minishell *data, t_command *cmd)
 {
 	int		i;
 
@@ -74,9 +81,11 @@ int		redirection_router(t_minishell *data, t_command *cmd)
 		if (parse_chevron(data, cmd->args[i], cmd->args[i + 1]))
 			return (0);
 		if (ft_strequ(cmd->args[i], ">") && cmd->out != -1)
-			cmd->out = create_redirection(data, cmd, i, O_TRUNC | O_RDWR | O_CREAT);
+			cmd->out = create_redirection(data, cmd, i,
+			O_TRUNC | O_RDWR | O_CREAT);
 		else if (ft_strequ(cmd->args[i], ">>") && cmd->out != -1)
-			cmd->out = create_redirection(data, cmd, i, O_RDWR | O_CREAT | O_APPEND);
+			cmd->out = create_redirection(data, cmd, i,
+			O_RDWR | O_CREAT | O_APPEND);
 		else if (ft_strequ(cmd->args[i], "<") && cmd->in != -1)
 			cmd->in = create_redirection(data, cmd, i, O_RDONLY);
 		else

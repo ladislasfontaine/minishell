@@ -6,7 +6,7 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:32:02 by memartin          #+#    #+#             */
-/*   Updated: 2020/06/19 12:10:05 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/16 15:51:33 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int			add_new_var_dup(t_list **tmp_env, t_var *var)
 {
-	t_var 	*new_var;
+	t_var	*new_var;
 	t_list	*new;
 
 	if (!(new_var = (t_var*)malloc(sizeof(t_var))))
@@ -27,7 +27,7 @@ static int			add_new_var_dup(t_list **tmp_env, t_var *var)
 	return (1);
 }
 
-static t_list	*sort_env(t_list *tmp_env)
+static t_list		*sort_env(t_list *tmp_env)
 {
 	t_list	*start;
 	t_var	*var1;
@@ -56,12 +56,11 @@ static t_list	*sort_env(t_list *tmp_env)
 	return (start);
 }
 
-
-t_list			*duplicate_env(t_minishell *data)
+t_list				*duplicate_env(t_minishell *data)
 {
 	t_list		*tmp_env;
 	t_list		*env;
-	
+
 	tmp_env = NULL;
 	env = data->env;
 	while (env)

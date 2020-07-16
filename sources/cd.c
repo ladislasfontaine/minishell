@@ -6,13 +6,13 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:34:32 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/15 18:35:28 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/16 14:30:03 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_new_path(t_minishell *data, t_command *cmd)
+char			*get_new_path(t_minishell *data, t_command *cmd)
 {
 	char	*path;
 
@@ -25,10 +25,27 @@ char	*get_new_path(t_minishell *data, t_command *cmd)
 	return (path);
 }
 
-void	update_variables(t_minishell *data, char *old_path)
+void			update_variables_next
+	(t_minishell *data, char *temp, char **tab)
+{
+	char	*new_path;
+
+	if (!(new_path = return_cwd()))
+		return ;
+	if (!(temp = ft_strjoin("PWD=", new_path)))
+	{
+		free(new_path);
+		return ;
+	}
+	tab[1] = temp;
+	ft_export(data, tab);
+	free(new_path);
+	free(temp);
+}
+
+void			update_variables(t_minishell *data, char *old_path)
 {
 	char	*temp;
-	char	*new_path;
 	char	*tab[3];
 
 	tab[0] = NULL;
@@ -43,20 +60,10 @@ void	update_variables(t_minishell *data, char *old_path)
 	ft_export(data, tab);
 	free(old_path);
 	free(temp);
-	if (!(new_path = return_cwd()))
-		return ;
-	if (!(temp = ft_strjoin("PWD=", new_path)))
-	{
-		free(new_path);
-		return ;
-	}
-	tab[1] = temp;
-	ft_export(data, tab);
-	free(new_path);
-	free(temp);
+	update_variables_next(data, temp, tab);
 }
 
-static void	print_error_cd(char *s1, char *s2, char *err)
+static void		print_error_cd(char *s1, char *s2, char *err)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(s1, 2);
@@ -67,7 +74,7 @@ static void	print_error_cd(char *s1, char *s2, char *err)
 	ft_putstr_fd("\n", 2);
 }
 
-int		command_cd(t_minishell *data, t_command *cmd)
+int				command_cd(t_minishell *data, t_command *cmd)
 {
 	char	*path;
 	char	*old_path;

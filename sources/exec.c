@@ -6,57 +6,28 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 11:24:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 14:11:03 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/16 14:53:40 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_tab(char **tab)
+static void		execute_binary_next
+	(t_minishell *data, char **envp, pid_t cpid)
 {
-	int	i;
+	int		status;
 
-	if (tab)
-	{
-		i = 0;
-		while (tab[i])
-		{
-			free(tab[i]);
-			i++;
-		}
-		free(tab);
-	}
+	free_tab(envp);
+	if (waitpid(cpid, &status, WUNTRACED | WCONTINUED) == -1)
+		exit_error(data);
+	if (WIFEXITED(status))
+		data->exit = WEXITSTATUS(status);
 }
 
-char	**create_env_tab(t_minishell *data)
-{
-	t_list	*element;
-	t_var	*var;
-	char	**tab;
-	int		size;
-	int		i;
-
-	// attention juste les variables dans env
-	size = ft_lstsize(data->env);
-	tab = (char **)malloc(sizeof(char *) * (size + 1));
-	element = data->env;
-	i = 0;
-	while (i < size)
-	{
-		var = (t_var *)element->content;
-		tab[i] = ft_strjoin_with(var->key, var->value, '=');
-		i++;
-		element = element->next;
-	}
-	tab[i] = 0;
-	return (tab);
-}
-
-void	execute_binary(t_minishell *data, char **argv, char *path)
+void			execute_binary(t_minishell *data, char **argv, char *path)
 {
 	char	**envp;
 	pid_t	cpid;
-	int		status;
 
 	envp = create_env_tab(data);
 	if ((cpid = fork()) == -1)
@@ -77,30 +48,16 @@ void	execute_binary(t_minishell *data, char **argv, char *path)
 		free_tab(envp);
 	}
 	else
-	{
-		free_tab(envp);
-		if (waitpid(cpid, &status, WUNTRACED | WCONTINUED) == -1)
-			exit_error(data);
-		if (WIFEXITED(status))
-			data->exit = WEXITSTATUS(status);
-	}
+		execute_binary_next(data, envp, cpid);
 }
 
-int		search_exec_in_path(t_minishell *data, char **argv, char **path)
+static int		search_exec_in_path_next
+	(t_minishell *data, char **argv, char **path, char **path_tab)
 {
-	char		**path_tab;
-	char		*temp;
-	int			i;
-	struct stat	sb;
+	char			*temp;
+	int				i;
+	struct stat		sb;
 
-	if (!(*path = get_var_value(data, "PATH")))
-		exit_error(data);
-	if (**path == '\0')
-	{
-		ft_putstr_fd("Error message, No path var\n", 2);
-		return (-1);
-	}
-	path_tab = ft_split(*path, ':');
 	i = 0;
 	while (path_tab[i])
 	{
@@ -122,7 +79,25 @@ int		search_exec_in_path(t_minishell *data, char **argv, char **path)
 	return (-1);
 }
 
-void	command_execute(t_minishell *data, t_command *cmd)
+int				search_exec_in_path(t_minishell *data, char **argv, char **path)
+{
+	char		**path_tab;
+
+	if (!(*path = get_var_value(data, "PATH")))
+		exit_error(data);
+	if (**path == '\0')
+	{
+		ft_putstr_fd("Error message, No path var\n", 2);
+		return (-1);
+	}
+	path_tab = ft_split(*path, ':');
+	if (search_exec_in_path_next(data, argv, path, path_tab) == 0)
+		return (0);
+	else
+		return (-1);
+}
+
+void			command_execute(t_minishell *data, t_command *cmd)
 {
 	char	**argv;
 	char	*path;
@@ -144,8 +119,6 @@ void	command_execute(t_minishell *data, t_command *cmd)
 		if (search_exec_in_path(data, argv, &path) == -1)
 			return ;
 	}
-	// attention à modifier cmd->args pour gérer le cas avec une path absolu
-	// si pas besoin virer argv
 	execute_binary(data, cmd->args, path);
 	free_tab(argv);
 }

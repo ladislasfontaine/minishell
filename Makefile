@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/15 15:08:42 by lafontai          #+#    #+#              #
-#    Updated: 2020/07/15 16:38:15 by user42           ###   ########.fr        #
+#    Updated: 2020/07/16 16:24:37 by memartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS	= $(addprefix $(FOLDER), \
 			parser.c \
 			variable.c \
 			exec.c \
+			exec_norm.c \
 			process.c \
 			pipe.c \
 			redirect.c \
@@ -32,7 +33,10 @@ SRCS	= $(addprefix $(FOLDER), \
 			lst_utils.c \
 			signal.c \
 			print_error.c \
+			print_error2.c \
 			parse_synthax.c \
+			delete.c \
+			execute_child_parent.c \
 			)
 
 OBJS	= $(SRCS:.c=.o)

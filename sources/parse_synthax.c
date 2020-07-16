@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 16:24:27 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/16 10:17:30 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/16 15:53:51 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int			check_pipe_semi_collon(t_minishell *data)
 	while (element)
 	{
 		cmd = (t_command*)element->content;
-		if (!cmd->args[0] && ((cmd->previous && cmd->previous->separator == PIPE)
+		if (!cmd->args[0] && ((cmd->previous &&
+			cmd->previous->separator == PIPE)
 			|| cmd->separator == PIPE))
 		{
 			print_error_parse_near("|");

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/15 21:03:00 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/16 15:52:26 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int					create_command(t_minishell *data, int start, int end)
 	command = NULL;
 	previous = ft_lstlast(data->cmd);
 	len = (end - start) < 0 ? 0 : (end - start);
-	if (init_command(&command, data->separator, ft_substr(data->line, start, len), previous) == -1)
+	if (init_command(&command, data->separator,
+		ft_substr(data->line, start, len), previous) == -1)
 		return (-1);
 	new = ft_lstnew((void *)command);
 	ft_lstadd_back(&data->cmd, new);
@@ -41,7 +42,7 @@ static int			get_line(char **line)
 	while (rd == CMD_SIZE)
 	{
 		buff = ft_strnew(CMD_SIZE + 1);
-		rd = read (0, buff, CMD_SIZE);
+		rd = read(0, buff, CMD_SIZE);
 		if (rd < 0)
 		{
 			free(buff);

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:24:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/06 10:14:06 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/16 16:28:56 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,10 @@ int		call_getcwd(int size)
 
 int		command_pwd(t_minishell *data, t_command *cmd)
 {
-	//int		i;
-	//int		ret;
 	char		*pwd;
 
 	data->exit = 0;
-	if (cmd->args[1] && cmd->args[1][0] == '-'  && cmd->args[1][1])
+	if (cmd->args[1] && cmd->args[1][0] == '-' && cmd->args[1][1])
 	{
 		data->exit = 1;
 		ft_printf("minishell: pwd: %s: invalid option\n", cmd->args[1]);
@@ -50,12 +48,6 @@ int		command_pwd(t_minishell *data, t_command *cmd)
 	pwd = get_var_value(data, "PWD");
 	ft_printf("%s\n", pwd);
 	free(pwd);
-	/*
-	i = 1;
-	while ((ret = call_getcwd(CMD_SIZE * i)) == -2)
-		i++;
-	if (ret == -1)
-		return (-1);*/
 	return (0);
 }
 

@@ -6,13 +6,13 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 10:47:40 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/23 10:17:00 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/16 14:31:25 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_var	*create_var(char *str)
+t_var			*create_var(char *str)
 {
 	int		equal;
 	t_var	*var;
@@ -30,7 +30,7 @@ t_var	*create_var(char *str)
 	return (var);
 }
 
-void	init_env(t_minishell *data, char **env)
+void			init_env(t_minishell *data, char **env)
 {
 	int		i;
 	t_var	*tmp;

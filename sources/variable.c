@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:58:27 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 14:08:21 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/16 16:41:19 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,32 @@ char	*get_var_key(char *str, int dollar, int *bracket, int d_quote)
 		*bracket = 1;
 	}
 	else if (d_quote)
-		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' && str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' && str[dollar + 1 + j] != '\\' && str[dollar + 1 + j] != '\'' && str[dollar + 1 + j] != '\"' && str[dollar + 1 + j] != '\"')
+		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' &&
+			str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' &&
+			str[dollar + 1 + j] != '\\' && str[dollar + 1 + j] != '\'' &&
+			str[dollar + 1 + j] != '\"' && str[dollar + 1 + j] != '\"')
 			j++;
 	else
-		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' && str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' && str[dollar + 1 + j] != '\\' && str[dollar + 1 + j] != '\'' && str[dollar + 1 + j] != '\"')
+		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' &&
+			str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' &&
+			str[dollar + 1 + j] != '\\' && str[dollar + 1 + j] != '\'' &&
+			str[dollar + 1 + j] != '\"')
 			j++;
 	return (ft_substr(str, dollar + *bracket + 1, j));
 }
 
-void	replace_key_by_value(t_minishell *data, t_command *cmd, t_var my_var, int dollar)
+void	replace_key_by_value
+	(t_minishell *data, t_command *cmd, t_var my_var, int dollar)
 {
 	char	*new_cmd;
 
-	if (!(new_cmd = ft_strnew(ft_strlen(cmd->cmd) - ft_strlen(my_var.key) - 1 - (2 * my_var.local) + ft_strlen(my_var.value))))
+	if (!(new_cmd = ft_strnew(ft_strlen(cmd->cmd) - ft_strlen(my_var.key) -
+		1 - (2 * my_var.local) + ft_strlen(my_var.value))))
 		exit_error(data);
 	ft_strncat(new_cmd, cmd->cmd, dollar);
 	ft_strcat(new_cmd, my_var.value);
-	ft_strcat(new_cmd, cmd->cmd + dollar + 1 + ft_strlen(my_var.key) + (2 * my_var.local));
+	ft_strcat(new_cmd, cmd->cmd + dollar + 1 + ft_strlen(my_var.key) +
+		(2 * my_var.local));
 	free(cmd->cmd);
 	cmd->cmd = new_cmd;
 }

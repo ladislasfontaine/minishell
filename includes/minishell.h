@@ -6,34 +6,34 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 14:10:16 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/16 16:42:40 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <errno.h>
-#include "libft.h"
-#include "printf.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <errno.h>
+# include "libft.h"
+# include "printf.h"
 
-#define CMD_SIZE 5121
-#define NONE 0
-#define SEMI_COLON 1
-#define PIPE 2
-#define RIGHT 1
-#define LEFT 2
-#define D_RIGHT 3
-#define GREEN "\033[1;32m"
-#define CYAN "\033[1;36m"
-#define RESET "\033[0m"
+# define CMD_SIZE 5121
+# define NONE 0
+# define SEMI_COLON 1
+# define PIPE 2
+# define RIGHT 1
+# define LEFT 2
+# define D_RIGHT 3
+# define GREEN "\033[1;32m"
+# define CYAN "\033[1;36m"
+# define RESET "\033[0m"
 
 typedef struct	s_var
 {
@@ -98,6 +98,8 @@ t_list	*duplicate_env(t_minishell *data);
 void	print_export_empty(void *element);
 
 void	print_error_export_id(char *s);
+void	print_error_exit(char *s);
+void	print_error_fork(char *s);
 void	print_error_cmd_not_found(t_minishell *data, char *s);
 void	print_error_parse_near(char *s1);
 void	print_error_exec_errno(char *s1, char *s2);
@@ -106,6 +108,8 @@ void	command_execute(t_minishell *data, t_command *cmd);
 char	*get_var_value(t_minishell *data, char *key);
 void	check_quotes(char letter, int *s_quote, int *d_quote);
 void	create_process(t_minishell *data, t_list *element, int p_fd[2], int c_fd[2]);
+void	execute_child(t_minishell *data, t_command *cmd, t_list *element);
+void	execute_parent(t_minishell *data, t_list *element, pid_t cpid, int p_fd[2]);
 void	handle_fd(t_command *cmd, int p_fd[2], int c_fd[2]);
 void	close_fds(int p_fd[2], int c_fd[2]);
 /* ECHO */
@@ -135,4 +139,11 @@ void	restore_signals_in_child(t_minishell *data);
 int		is_export_arg_empty(char *arg);
 int		is_export_char(char c);
 int		is_whitespace(char c);
+
+void	free_tab(char **tab);
+char	**create_env_tab(t_minishell *data);
+void	del_command(void *element);
+void	del_variable(void *element);
+void	clear_all(t_minishell *data);
+
 #endif

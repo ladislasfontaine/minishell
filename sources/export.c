@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:19:09 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/16 13:18:51 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/16 14:20:22 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,6 @@ static int		check_arg(char *s)
 	return (1);
 }
 
-static char		*ft_strjoinfree(char *s1, char *s2)
-{
-	char		*tmp;
-
-	tmp = ft_strjoin(s1, s2);
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
-	return (tmp);
-}
-
 static int		is_key_exist
 	(t_minishell *data, char *key, char *value, int plus)
 {
@@ -56,7 +44,7 @@ static int		is_key_exist
 		if (!ft_strcmp(key, var->key))
 		{
 			if (plus)
-				var->value = ft_strjoinfree(var->value, value);
+				var->value = ft_joinfree(var->value, value);
 			else
 			{
 				ft_strdel(&var->value);

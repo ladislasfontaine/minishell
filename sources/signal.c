@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 17:17:23 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/16 12:56:50 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/16 16:36:51 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 void	ignore_signal(t_minishell *data)
 {
 	data->signal_set = 1;
-	
-	// ignore "Ctrl-C"
-    SIGINT_handler = signal(SIGINT, SIG_IGN);
-	// ignore "Ctrl-\"
-    SIGQUIT_handler = signal(SIGQUIT, SIG_IGN);
+	SIGINT_handler = signal(SIGINT, SIG_IGN);
+	SIGQUIT_handler = signal(SIGQUIT, SIG_IGN);
 }
 
 void	test_func(int signum)
@@ -43,7 +40,5 @@ void	restore_signals_in_child(t_minishell *data)
 	{
 		signal(SIGINT, test_func);
 		signal(SIGQUIT, test_func);
-		//signal(SIGINT, SIGINT_handler);
-		//signal(SIGQUIT, SIGINT_handler);
 	}
 }

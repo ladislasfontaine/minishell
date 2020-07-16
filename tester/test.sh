@@ -161,6 +161,11 @@ exec_test "ls -la | wtf"
 exec_test "echo $H\OME"
 exec_test "echo \\\\\\\\"
 exec_test "echo \\\\\\\\\\\\\\\\"
+exec_test "echo 'salut       $HOME'"
+exec_test 'echo "salut       $HOME"'
+exec_test 'echo  salut       $HOME'
+exec_test 'echo  \$HOME'
+exec_test 'echo  this       is "     ano\\ther"  \ test'
 
 printf ">>> SCORE: $SCORE/$TOTAL <<<\n"
 

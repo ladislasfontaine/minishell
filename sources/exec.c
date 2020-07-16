@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 11:24:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/15 18:33:52 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/16 14:11:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,7 @@ int		search_exec_in_path(t_minishell *data, char **argv, char **path)
 		i++;
 	}
 	free_tab(path_tab);
-	print_error_cmd_not_found(argv[0]);
-	data->exit = 127;
+	print_error_cmd_not_found(data, argv[0]);
 	return (-1);
 }
 

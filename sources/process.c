@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:03:34 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 12:49:03 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/16 14:00:37 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,18 +94,22 @@ void	execute_child(t_minishell *data, t_command *cmd, t_list *element)
 void	execute_parent(t_minishell *data, t_list *element, pid_t cpid, int p_fd[2])
 {
 	int			status;
+	int			last;
 	int			c_fd[2];
 	t_command	*cmd;
 
+	last = 0;
 	if (pipe(c_fd) < 0)
 		return ;
 	cmd = (t_command *)element->content;	
 	if (cmd->separator == PIPE)
 		create_process(data, element->next, p_fd, c_fd);
+	else
+		last = 1;
 	close_fds(p_fd, c_fd);	
 	if (waitpid(cpid, &status, WUNTRACED | WCONTINUED) == -1)
 		exit_error(data);
-	if (WIFEXITED(status))
+	if (WIFEXITED(status) && last)
 		data->exit = WEXITSTATUS(status);
 }
 

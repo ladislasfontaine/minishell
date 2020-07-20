@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:58:27 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 18:21:22 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:56:51 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,11 @@ void	replace_action(t_minishell *data, t_command *cmd, int *i)
 	if (ft_strlen(var.key) == 0)
 	{
 		*i += 1;
+		free(var.key);
 		return ;
 	}
 	else if (ft_strequ(var.key, "?"))
-	{
-		if (!(var.value = ft_itoa(data->exit)))
-			free_exit_error(data, var.key);
-	}
+		var.value = replace_action_1(data, var);
 	else if (!(var.value = get_var_value(data, var.key)))
 		free_exit_error(data, var.key);
 	replace_key_by_value(data, cmd, var, *i);

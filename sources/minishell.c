@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 15:52:26 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:45:45 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ static void			set_prompt(t_minishell *data)
 {
 	while (data->run)
 	{
+		g_process = 0;
+		g_signum = 0;
 		ft_putstr_fd(""GREEN"➜  "CYAN"minishell "RESET"", 2);
 		data->line = ft_strnew(1);
 		get_line(&data->line);
@@ -89,6 +91,8 @@ static void			set_prompt(t_minishell *data)
 		}
 		else if (!ft_strlen(data->line))
 			exit_normal(data);
+		else
+			data->exit = 0;
 		reset_command(data);
 	}
 }
@@ -99,6 +103,7 @@ int					main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	g_process = 0;
 	init_minishell(&data);
 	ignore_signal(&data);
 	init_env(&data, envp);

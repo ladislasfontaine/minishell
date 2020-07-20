@@ -6,7 +6,7 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 16:20:48 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/16 16:26:49 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:44:00 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ void	execute_parent
 		return ;
 	cmd = (t_command *)element->content;
 	if (cmd->separator == PIPE)
+	{
+		g_process = 1;
 		create_process(data, element->next, p_fd, c_fd);
+	}
 	else
 		last = 1;
 	close_fds(p_fd, c_fd);

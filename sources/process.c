@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 11:03:34 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 16:27:24 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:44:35 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ static t_list		*line_iteration_2
 	if (pipe(p_fd))
 		return (element);
 	if (!command_router_no_process(data, cmd))
+	{
+		g_process = 1;
 		create_process(data, element, p_fd, NULL);
+	}
 	close(p_fd[0]);
 	close(p_fd[1]);
 	while (cmd->separator == PIPE && element)

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 22:41:47 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:53:31 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct	s_minishell
 }				t_minishell;
 
 int				g_signum;
+int				g_process;
 
 void			init_minishell(t_minishell *data);
 int				init_command(t_command **command, int sep,
@@ -160,5 +161,6 @@ void			init_split(t_split *split);
 int				check_escape(const char *str, int i, int *esc);
 char			**ft_split_special(char const *s, char c);
 char			**ft_split_special_redir(char const *s, char c);
+char			*replace_action_1(t_minishell *data, t_var var);
 
 #endif

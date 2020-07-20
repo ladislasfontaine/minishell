@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 11:24:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 14:53:40 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/20 14:58:11 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void			execute_binary(t_minishell *data, char **argv, char *path)
 	envp = create_env_tab(data);
 	if ((cpid = fork()) == -1)
 	{
-		ft_printf("%s\n", strerror(errno));
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
 		free_tab(envp);
 		exit_error(data);
 	}
@@ -76,6 +77,7 @@ static int		search_exec_in_path_next
 	}
 	free_tab(path_tab);
 	print_error_cmd_not_found(data, argv[0]);
+	free_tab(argv);
 	return (-1);
 }
 

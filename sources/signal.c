@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 17:17:23 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/20 16:30:20 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/21 12:24:39 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ static void		return_control_c(int signum)
 		ft_putstr_fd("\n", 2);
 		ft_putstr_fd(""GREEN"➜  "CYAN"minishell "RESET"", 2);
 	}
+	else if (signum == SIGQUIT && g_process == 0)
+		ft_putstr_fd("\b\b  \b\b", 1);
 }
 
 void			ignore_signal(t_minishell *data)
 {
 	data->signal_set = 1;
 	signal(SIGINT, return_control_c);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, return_control_c);
 }
 
 void			test_func(int signum)
@@ -39,7 +41,7 @@ void			test_func(int signum)
 	else if (signum == SIGQUIT)
 	{
 		g_signum = SIGQUIT;
-		ft_putstr_fd("Quit\n", 2);
+		ft_putstr_fd("Quit (core dumped)\n", 2);
 	}
 }
 

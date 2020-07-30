@@ -6,16 +6,11 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 11:02:04 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 16:34:57 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/30 17:05:03 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void			split_command(t_command *cmd)
-{
-	cmd->args = ft_split_special_redir(cmd->cmd, ' ');
-}
 
 static void		remove_redirection_1(t_command *cmd, char **tab, int k)
 {
@@ -71,6 +66,17 @@ int				create_redirection
 	return (fd);
 }
 
+static int		redirection_router_norm
+	(t_minishell *data, t_command *cmd, int i)
+{
+	if (cmd->args[i] && !cmd->args[i + 1] && !cmd->was_in_quote[i])
+	{
+		if (check_first_chevron(data, cmd->args[i]))
+			return (0);
+	}
+	return (1);
+}
+
 int				redirection_router(t_minishell *data, t_command *cmd)
 {
 	int		i;
@@ -78,23 +84,22 @@ int				redirection_router(t_minishell *data, t_command *cmd)
 	i = 0;
 	while (cmd->args[i] && cmd->args[i + 1])
 	{
-		if (parse_chevron(data, cmd->args[i], cmd->args[i + 1]))
+		cmd->nb_arg = i;
+		if (parse_chevron(data, cmd, cmd->args[i], cmd->args[i + 1]))
 			return (0);
-		if (ft_strequ(cmd->args[i], ">") && cmd->out != -1)
+		if (ft_strequ(cmd->args[i], ">") && cmd->out != -1 &&
+			!cmd->was_in_quote[i])
 			cmd->out = create_redirection(data, cmd, i,
 			O_TRUNC | O_RDWR | O_CREAT);
-		else if (ft_strequ(cmd->args[i], ">>") && cmd->out != -1)
+		else if (ft_strequ(cmd->args[i], ">>") && cmd->out != -1 &&
+			!cmd->was_in_quote[i])
 			cmd->out = create_redirection(data, cmd, i,
 			O_RDWR | O_CREAT | O_APPEND);
-		else if (ft_strequ(cmd->args[i], "<") && cmd->in != -1)
+		else if (ft_strequ(cmd->args[i], "<") && cmd->in != -1 &&
+			!cmd->was_in_quote[i])
 			cmd->in = create_redirection(data, cmd, i, O_RDONLY);
 		else
 			i++;
 	}
-	if (cmd->args[i] && !cmd->args[i + 1])
-	{
-		if (check_first_chevron(data, cmd->args[i]))
-			return (0);
-	}
-	return (1);
+	return (redirection_router_norm(data, cmd, i));
 }

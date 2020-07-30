@@ -6,7 +6,7 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 15:20:54 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/16 15:48:32 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/30 16:06:26 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	del_command(void *element)
 	temp = (t_command *)element;
 	if (temp->args)
 		free_tab(temp->args);
+	if (temp->was_in_quote)
+		free(temp->was_in_quote);
 	if (temp->cmd)
 		free(temp->cmd);
 	if (temp)

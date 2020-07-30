@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 16:09:21 by lafontai          #+#    #+#             */
-/*   Updated: 2020/06/25 17:45:54 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/30 15:39:17 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int		init_command(t_command **command, int sep, char *sub, t_list *previous)
 	}
 	(*command)->cmd = sub;
 	(*command)->args = NULL;
+	(*command)->was_in_quote = NULL;
 	(*command)->separator = sep;
 	(*command)->s_quote = 0;
 	(*command)->d_quote = 0;

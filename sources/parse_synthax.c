@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 16:24:27 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/16 15:53:51 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/30 16:49:08 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,17 @@
 static int	check_semi_collon(t_minishell *data)
 {
 	int			i;
+	int			d_quote;
+	int			s_quote;
 
 	i = 0;
+	d_quote = 0;
+	s_quote = 0;
 	while (data->line[i])
 	{
-		if (data->line[i] == ';' && data->line[i + 1] == ';')
+		check_quotes(data->line[i], &s_quote, &d_quote);
+		if (!d_quote && !s_quote && data->line[i] == ';' &&
+			data->line[i + 1] == ';')
 		{
 			print_error_parse_near(";;");
 			data->exit = 2;
@@ -66,13 +72,16 @@ int			check_first_chevron(t_minishell *data, char *arg)
 	return (0);
 }
 
-int			parse_chevron(t_minishell *data, char *arg1, char *arg2)
+int			parse_chevron(t_minishell *data, t_command *cmd,
+	char *arg1, char *arg2)
 {
 	int		len1;
 	int		len2;
 
 	len1 = ft_strlen(arg1);
 	len2 = ft_strlen(arg2);
+	if (cmd->was_in_quote[cmd->nb_arg] || cmd->was_in_quote[cmd->nb_arg + 1])
+		return (0);
 	if ((len1 == 1 && (arg1[0] == '>' || arg1[0] == '<'))
 		|| (len1 == 2 && (arg1[0] == '>' && arg1[1] == '>')))
 	{

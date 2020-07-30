@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/20 16:53:31 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/30 16:05:38 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct	s_command
 {
 	char				*cmd;
 	char				**args;
+	int					*was_in_quote;
+	int					nb_arg;
 	int					separator;
 	int					s_quote;
 	int					d_quote;
@@ -103,10 +105,11 @@ int				create_command(t_minishell *data, int start, int end);
 void			free_tab(char **tab);
 
 int				split_line(t_minishell *data);
-void			split_command(t_command *cmd);
+void			split_command(t_minishell *data, t_command *cmd);
 int				process_command(t_minishell *data, t_list *element);
 int				check_pipe_semi_collon(t_minishell *data);
-int				parse_chevron(t_minishell *data, char *arg1, char *arg2);
+int				parse_chevron(t_minishell *data, t_command *cmd,
+										char *arg1, char *arg2);
 int				check_first_chevron(t_minishell *data, char *arg);
 t_list			*duplicate_env(t_minishell *data);
 void			print_export_empty(void *element);
@@ -162,5 +165,6 @@ int				check_escape(const char *str, int i, int *esc);
 char			**ft_split_special(char const *s, char c);
 char			**ft_split_special_redir(char const *s, char c);
 char			*replace_action_1(t_minishell *data, t_var var);
+int				*check_arg_in_quote(t_command *cmd);
 
 #endif

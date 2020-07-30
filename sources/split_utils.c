@@ -6,11 +6,27 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 21:57:01 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/20 16:55:10 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/30 17:05:46 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	split_command(t_minishell *data, t_command *cmd)
+{
+	cmd->was_in_quote = check_arg_in_quote(cmd);
+	if (cmd->was_in_quote == NULL)
+	{
+		data->exit = ENOMEM;
+		exit_error(data);
+	}
+	cmd->args = ft_split_special_redir(cmd->cmd, ' ');
+	if (cmd->args == NULL)
+	{
+		data->exit = ENOMEM;
+		exit_error(data);
+	}
+}
 
 void	init_split(t_split *split)
 {

@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/15 15:08:42 by lafontai          #+#    #+#              #
-#    Updated: 2020/07/16 21:56:12 by lafontai         ###   ########.fr        #
+#    Updated: 2020/07/30 16:07:30 by memartin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS	= $(addprefix $(FOLDER), \
 			split_redirection.c \
 			split_special.c \
 			split_utils.c \
+			check_arg_in_quote.c \
 			)
 
 OBJS	= $(SRCS:.c=.o)

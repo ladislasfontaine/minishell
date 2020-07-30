@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/21 12:52:35 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/07/30 16:05:59 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int			split_all_command(t_minishell *data)
 	{
 		cmd = (t_command*)element->content;
 		replace_variables(data, cmd);
-		split_command(cmd);
+		split_command(data, cmd);
 		if (!redirection_router(data, cmd))
 			return (0);
 		element = element->next;

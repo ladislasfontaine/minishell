@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:34:32 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 14:30:03 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/30 11:50:14 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,12 @@ int				command_cd(t_minishell *data, t_command *cmd)
 		return (-1);
 	if (!(old_path = return_cwd()))
 	{
-		free(path);
-		return (-1);
+		old_path = get_var_value(data, "PWD");
 	}
 	if (chdir(path) == -1)
 	{
 		data->exit = 1;
-		print_error_cd(cmd->args[0], cmd->args[1], strerror(errno));
+		print_error_cd(cmd->args[0], path, strerror(errno));
 		free(path);
 		free(old_path);
 		data->exit = 1;

@@ -6,7 +6,7 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/30 15:35:14 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/30 16:15:50 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/31 13:47:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			*check_arg_in_quote(t_command *cmd)
 	i = 0;
 	j = 0;
 	cmd->nb_arg = w_count(cmd->cmd, ' ');
-	if (!(tab = (int*)malloc(sizeof(int) * cmd->nb_arg + 1)))
+	if (!(tab = (int*)malloc(sizeof(int) * (cmd->nb_arg + 2))))
 		return (NULL);
 	while (cmd->cmd[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/30 16:05:38 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/31 12:55:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void			print_error_exec_errno(char *s1, char *s2);
 
 void			command_execute(t_minishell *data, t_command *cmd);
 char			*get_var_value(t_minishell *data, char *key);
+char			*get_path_from_relative(t_minishell *data, char *exec);
 void			check_quotes(char letter, int *s_quote, int *d_quote);
 void			create_process(t_minishell *data, t_list *element,
 								int p_fd[2], int c_fd[2]);

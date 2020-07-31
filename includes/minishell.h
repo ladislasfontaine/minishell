@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/30 16:05:38 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/31 11:59:28 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ void			restore_signals_in_child(t_minishell *data);
 int				is_export_arg_empty(char *arg);
 int				is_export_char(char c);
 int				is_whitespace(char c);
+int				is_not_separator(char c);
 
 void			free_tab(char **tab);
 char			**create_env_tab(t_minishell *data);

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:24:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 16:28:56 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/31 12:03:45 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		command_pwd(t_minishell *data, t_command *cmd)
 		ft_printf("minishell: pwd: %s: invalid option\n", cmd->args[1]);
 		return (-1);
 	}
-	pwd = get_var_value(data, "PWD");
+	pwd = return_cwd();
 	ft_printf("%s\n", pwd);
 	free(pwd);
 	return (0);

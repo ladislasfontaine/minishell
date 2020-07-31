@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:58:27 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/20 16:56:51 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/31 11:59:10 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,10 @@ char	*get_var_key(char *str, int dollar, int *bracket, int d_quote)
 		*bracket = 1;
 	}
 	else if (d_quote)
-		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' &&
-			str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' &&
-			str[dollar + 1 + j] != '\\' && str[dollar + 1 + j] != '\'' &&
-			str[dollar + 1 + j] != '\"' && str[dollar + 1 + j] != '\"')
+		while (str[dollar + 1 + j] && is_not_separator(str[dollar + 1 + j]))
 			j++;
 	else
-		while (str[dollar + 1 + j] && str[dollar + 1 + j] != ' ' &&
-			str[dollar + 1 + j] != '$' && str[dollar + 1 + j] != '=' &&
-			str[dollar + 1 + j] != '\\' && str[dollar + 1 + j] != '\'' &&
-			str[dollar + 1 + j] != '\"')
+		while (str[dollar + 1 + j] && is_not_separator(str[dollar + 1 + j]))
 			j++;
 	return (ft_substr(str, dollar + *bracket + 1, j));
 }

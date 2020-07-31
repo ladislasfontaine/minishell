@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 14:03:17 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/16 16:38:17 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/31 14:12:18 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ int			is_export_char(char c)
 int			is_whitespace(char c)
 {
 	if (c == ' ' || c == '\t')
+		return (1);
+	return (0);
+}
+
+int			is_not_separator(char c)
+{
+	if (ft_isalnum(c) || c == '_')
 		return (1);
 	return (0);
 }

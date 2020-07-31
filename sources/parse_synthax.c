@@ -6,11 +6,38 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 16:24:27 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/30 16:49:08 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/31 11:59:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	check_bracket(t_minishell *data)
+{
+	int			i;
+	int			d_quote;
+	int			s_quote;
+
+	i = 0;
+	d_quote = 0;
+	s_quote = 0;
+	while (data->line[i])
+	{
+		check_quotes(data->line[i], &s_quote, &d_quote);
+		if (!d_quote && !s_quote && (data->line[i] == '(' ||
+			data->line[i] == ')'))
+		{
+			if (data->line[i] == '(')
+				print_error_parse_near("(");
+			else
+				print_error_parse_near(")");
+			data->exit = 2;
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
 
 static int	check_semi_collon(t_minishell *data)
 {
@@ -41,7 +68,7 @@ int			check_pipe_semi_collon(t_minishell *data)
 	t_list		*element;
 	t_command	*cmd;
 
-	if (check_semi_collon(data))
+	if (check_semi_collon(data) || check_bracket(data))
 		return (1);
 	element = data->cmd;
 	while (element)

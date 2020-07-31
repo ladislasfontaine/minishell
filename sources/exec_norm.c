@@ -6,7 +6,7 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 14:38:46 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/16 14:43:52 by memartin         ###   ########.fr       */
+/*   Updated: 2020/07/31 12:54:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,18 @@ void	free_tab(char **tab)
 		}
 		free(tab);
 	}
+}
+
+char	*get_path_from_relative(t_minishell *data, char *exec)
+{
+	char	*path;
+	char	*tmp;
+
+	tmp = get_var_value(data, "PWD");
+	path = ft_strjoin(tmp, exec + 1);
+	if (tmp)
+		free(tmp);
+	return (path);
 }
 
 char	**create_env_tab(t_minishell *data)

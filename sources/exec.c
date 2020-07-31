@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 11:24:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/31 12:51:00 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/31 14:23:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void			command_execute(t_minishell *data, t_command *cmd)
 	else if (argv[0][0] == '/')
 		path = ft_strdup(argv[0]);
 	else if (argv[0][0] == '.' && argv[0][1] == '/')
-		path = get_path_from_relative(data, argv[0]);
+		path = get_path_from_relative(argv[0]);
 	else
 	{
 		if (search_exec_in_path(data, argv, &path) == -1)

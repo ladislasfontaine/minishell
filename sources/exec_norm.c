@@ -6,7 +6,7 @@
 /*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 14:38:46 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/31 12:54:41 by user42           ###   ########.fr       */
+/*   Updated: 2020/07/31 14:22:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	free_tab(char **tab)
 	}
 }
 
-char	*get_path_from_relative(t_minishell *data, char *exec)
+char	*get_path_from_relative(char *exec)
 {
 	char	*path;
 	char	*tmp;
 
-	tmp = get_var_value(data, "PWD");
+	tmp = return_cwd();
 	path = ft_strjoin(tmp, exec + 1);
 	if (tmp)
 		free(tmp);

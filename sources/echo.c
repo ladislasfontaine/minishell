@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 14:09:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/08/03 13:23:07 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/08/03 15:55:01 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,33 @@ char	*ft_strdup_except(const char *s1, int i)
 	return (s2);
 }
 
-char	*remove_backslash(char *str)
+void	remove_backslash(char **str)
 {
 	int		i;
+	int		j;
 	int		s_quote;
 	int		d_quote;
-	char	*tmp1;
-	char	*tmp2;
+	char	*tmp;
 
-	i = 0;
-	s_quote = 0;
-	d_quote = 0;
-	tmp1 = ft_strdup(str);
-	ft_strdel(&str);
-	while (tmp1[i])
+	j = 0;
+	while (str[j])
 	{
-		check_quotes(tmp1[i], &s_quote, &d_quote);
-		if (tmp1[i] == '\\' && !s_quote && !d_quote)
+		i = 0;
+		s_quote = 0;
+		d_quote = 0;
+		while (str[j][i])
 		{
-			tmp2 = ft_strdup_except(tmp1, i);
-			ft_strdel(&tmp1);
-			tmp1 = tmp2;
+			check_quotes(str[j][i], &s_quote, &d_quote);
+			if (str[j][i] == '\\' && !s_quote && !d_quote)
+			{
+				tmp = ft_strdup_except(str[j], i);
+				ft_strdel(&str[j]);
+				str[j] = tmp;
+			}
+			i++;
 		}
-		i++;
+		j++;
 	}
-	return (tmp1);
 }
 
 void	command_echo(t_minishell *data, t_command *cmd)
@@ -75,7 +77,6 @@ void	command_echo(t_minishell *data, t_command *cmd)
 		i++;
 	while (cmd->args[i])
 	{
-		cmd->args[i] = remove_backslash(cmd->args[i]);
 		ft_printf("%s", cmd->args[i]);
 		if (cmd->args[i + 1])
 			ft_printf(" ");

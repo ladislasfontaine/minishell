@@ -3,34 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   check_arg_in_quote.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/30 15:35:14 by memartin          #+#    #+#             */
-/*   Updated: 2020/08/03 14:18:58 by memartin         ###   ########.fr       */
+/*   Updated: 2020/08/03 15:19:55 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	w_count(const char *str, char c)
+static int	w_count(const char *s, char c)
 {
 	t_split	d;
 
 	init_split(&d);
-	if (str[0] != c)
+	if (s[0] != c)
 		d.count++;
-	while (str[d.i] && str[d.i + 1])
+	while (s[d.i])
 	{
-		check_quotes(str[d.i], &d.s_quote, &d.d_quote);
-		if ((str[d.i] == '>' || str[d.i] == '<') && !d.s_quote && !d.d_quote)
+		check_quotes(s[d.i], &d.s_quote, &d.d_quote);
+		if (s[d.i] == '\\')
+		{
+			d.i = (s[d.i + 1]) ? d.i + 2 : d.i + 1;
+			continue ;
+		}
+		if ((s[d.i] == '>' || s[d.i] == '<') && !d.s_quote && !d.d_quote)
 		{
 			d.count++;
-			if (str[d.i] == '>' && str[d.i + 1] == '>')
-				d.i++;
+			d.i += (s[d.i] == '>' && s[d.i + 1] && s[d.i + 1] == '>') ? 1 : 0;
 		}
-		if ((str[d.i] == c || str[d.i] == '>' || str[d.i] == '<')
-			&& str[d.i + 1] && (str[d.i + 1] != c && str[d.i + 1] != '>'
-			&& str[d.i + 1] != '<') && !d.s_quote && !d.d_quote)
+		if ((s[d.i] == c || s[d.i] == '>' || s[d.i] == '<')
+			&& s[d.i + 1] && (s[d.i + 1] != c && s[d.i + 1] != '>'
+			&& s[d.i + 1] != '<') && !d.s_quote && !d.d_quote)
 			d.count++;
 		d.i++;
 	}

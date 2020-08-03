@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 14:03:17 by memartin          #+#    #+#             */
-/*   Updated: 2020/08/03 13:32:15 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/08/03 15:10:44 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,4 @@ int			is_not_separator(char c)
 	if (ft_isalnum(c) || c == '_')
 		return (1);
 	return (0);
-}
-
-void		write_backslash(char const *s, t_split *d)
-{
-	if (check_escape(s, d->i, &d->count))
-	{
-		d->tab[d->j][d->k] = '\\';
-		d->k++;
-	}
-	d->i++;
 }

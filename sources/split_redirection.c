@@ -6,35 +6,35 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 22:00:30 by lafontai          #+#    #+#             */
-/*   Updated: 2020/08/03 13:32:04 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/08/03 15:20:52 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	w_count(const char *str, char c)
+static int	w_count(const char *s, char c)
 {
 	t_split	d;
 
 	init_split(&d);
-	if (str[0] != c)
+	if (s[0] != c)
 		d.count++;
-	while (str[d.i] && str[d.i + 1])
+	while (s[d.i])
 	{
-		check_quotes(str[d.i], &d.s_quote, &d.d_quote);
-		if (str[d.i] == '\\')
+		check_quotes(s[d.i], &d.s_quote, &d.d_quote);
+		if (s[d.i] == '\\')
 		{
-			d.i += 2;
+			d.i = (s[d.i + 1]) ? d.i + 2 : d.i + 1;
 			continue ;
 		}
-		if ((str[d.i] == '>' || str[d.i] == '<') && !d.s_quote && !d.d_quote)
+		if ((s[d.i] == '>' || s[d.i] == '<') && !d.s_quote && !d.d_quote)
 		{
 			d.count++;
-			d.i = (str[d.i] == '>' && str[d.i + 1] == '>') ? d.i + 1 : d.i;
+			d.i += (s[d.i] == '>' && s[d.i + 1] && s[d.i + 1] == '>') ? 1 : 0;
 		}
-		if ((str[d.i] == c || str[d.i] == '>' || str[d.i] == '<')
-			&& str[d.i + 1] && (str[d.i + 1] != c && str[d.i + 1] != '>'
-			&& str[d.i + 1] != '<') && !d.s_quote && !d.d_quote)
+		if ((s[d.i] == c || s[d.i] == '>' || s[d.i] == '<')
+			&& s[d.i + 1] && (s[d.i + 1] != c && s[d.i + 1] != '>'
+			&& s[d.i + 1] != '<') && !d.s_quote && !d.d_quote)
 			d.count++;
 		d.i++;
 	}
@@ -77,13 +77,12 @@ void		split_words(char const *s, t_split *d)
 			|| d->s_quote || d->d_quote || d->count))
 	{
 		check_quotes(s[d->i], &d->s_quote, &d->d_quote);
-		if ((!d->count && s[d->i] == '\\' && !d->s_quote && !d->d_quote)
-		|| (!d->count && s[d->i] == '\\' && s[d->i + 1] && (s[d->i + 1] == '$'
-		|| s[d->i + 1] == '\"' || s[d->i + 1] == '\'' || s[d->i + 1] == '>'
-		|| s[d->i + 1] == '<')))
+		if (!d->count && s[d->i] == '\\')
 		{
-			write_backslash(s, d);
-			continue ;
+			d->tab[d->j][d->k] = s[d->i];
+			d->i++;
+			d->k++;
+			d->count = 1;
 		}
 		if (d->count
 		|| (!d->s_quote && !d->d_quote && s[d->i] != '\'' && s[d->i] != '\"')

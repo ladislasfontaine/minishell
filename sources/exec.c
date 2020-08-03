@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/18 11:24:35 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/31 12:51:00 by user42           ###   ########.fr       */
+/*   Updated: 2020/08/03 13:24:44 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,7 @@ void			command_execute(t_minishell *data, t_command *cmd)
 
 	argv = NULL;
 	path = NULL;
-	if (!(argv = ft_split_special(cmd->cmd, ' ')))
-		exit_error(data);
+	argv = cmd->args;
 	if (!*argv)
 		return ;
 	else if (argv[0][0] == '/')
@@ -120,5 +119,4 @@ void			command_execute(t_minishell *data, t_command *cmd)
 			return ;
 	}
 	execute_binary(data, cmd->args, path);
-	free_tab(argv);
 }

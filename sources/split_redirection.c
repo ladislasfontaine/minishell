@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 22:00:30 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/16 22:33:45 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/08/03 13:32:04 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,15 @@ static int	w_count(const char *str, char c)
 	while (str[d.i] && str[d.i + 1])
 	{
 		check_quotes(str[d.i], &d.s_quote, &d.d_quote);
+		if (str[d.i] == '\\')
+		{
+			d.i += 2;
+			continue ;
+		}
 		if ((str[d.i] == '>' || str[d.i] == '<') && !d.s_quote && !d.d_quote)
 		{
 			d.count++;
-			if (str[d.i] == '>' && str[d.i + 1] == '>')
-				d.i++;
+			d.i = (str[d.i] == '>' && str[d.i + 1] == '>') ? d.i + 1 : d.i;
 		}
 		if ((str[d.i] == c || str[d.i] == '>' || str[d.i] == '<')
 			&& str[d.i + 1] && (str[d.i + 1] != c && str[d.i + 1] != '>'
@@ -40,7 +44,9 @@ static int	w_count(const char *str, char c)
 static int	w_len(const char *str, char c, int pos)
 {
 	t_split	d;
+	int		esc;
 
+	esc = 0;
 	init_split(&d);
 	if (str[pos] == '>' || str[pos] == '<')
 	{
@@ -48,8 +54,8 @@ static int	w_len(const char *str, char c, int pos)
 			return (2);
 		return (1);
 	}
-	while (str[pos + d.i] && ((str[pos + d.i] != c && str[pos + d.i] != '>'
-			&& str[pos + d.i] != '<') || d.s_quote || d.d_quote))
+	while (str[pos + d.i] && ((str[pos + d.i] != '>' && str[pos + d.i] != c
+			&& str[pos + d.i] != '<') || esc || d.s_quote || d.d_quote))
 	{
 		check_quotes(str[pos + d.i], &d.s_quote, &d.d_quote);
 		if (!d.s_quote && !d.d_quote && str[pos + d.i] != '\''
@@ -58,6 +64,7 @@ static int	w_len(const char *str, char c, int pos)
 		else if ((d.s_quote && str[pos + d.i] != '\'')
 				|| (d.d_quote && str[pos + d.i] != '\"'))
 			d.count++;
+		check_escape(str, pos + d.i, &esc);
 		d.i++;
 	}
 	return (d.count);
@@ -67,15 +74,15 @@ void		split_words(char const *s, t_split *d)
 {
 	d->tab[d->j] = ft_strnew(w_len(s, ' ', d->i));
 	while (s[d->i] && ((s[d->i] != ' ' && s[d->i] != '>' && s[d->i] != '<')
-			|| d->s_quote || d->d_quote))
+			|| d->s_quote || d->d_quote || d->count))
 	{
 		check_quotes(s[d->i], &d->s_quote, &d->d_quote);
 		if ((!d->count && s[d->i] == '\\' && !d->s_quote && !d->d_quote)
 		|| (!d->count && s[d->i] == '\\' && s[d->i + 1] && (s[d->i + 1] == '$'
-		|| s[d->i + 1] == '\"' || s[d->i + 1] == '\'')))
+		|| s[d->i + 1] == '\"' || s[d->i + 1] == '\'' || s[d->i + 1] == '>'
+		|| s[d->i + 1] == '<')))
 		{
-			d->count = 1;
-			d->i++;
+			write_backslash(s, d);
 			continue ;
 		}
 		if (d->count
@@ -85,7 +92,7 @@ void		split_words(char const *s, t_split *d)
 			d->tab[d->j][d->k] = s[d->i];
 			d->k++;
 		}
-		check_escape(s, d->i, &d->count);
+		d->count = 0;
 		d->i++;
 	}
 	d->tab[d->j][d->k] = '\0';
@@ -116,7 +123,7 @@ char		**ft_split_special_redir(char const *s, char c)
 	t_split	d;
 
 	init_split(&d);
-	if (!(d.tab = (char **)malloc(sizeof(char *) * (w_count(s, c) + 2))))
+	if (!(d.tab = (char **)malloc(sizeof(char *) * (w_count(s, c) + 1))))
 		return (NULL);
 	if (s[0] && s[0] == '\\')
 	{

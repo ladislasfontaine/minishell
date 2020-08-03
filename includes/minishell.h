@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/31 14:13:43 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/08/03 13:32:46 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,5 +168,6 @@ char			**ft_split_special(char const *s, char c);
 char			**ft_split_special_redir(char const *s, char c);
 char			*replace_action_1(t_minishell *data, t_var var);
 int				*check_arg_in_quote(t_command *cmd);
+void			write_backslash(char const *s, t_split *d);
 
 #endif

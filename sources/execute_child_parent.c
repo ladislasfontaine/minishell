@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_child_parent.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: memartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 16:20:48 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/20 16:44:00 by memartin         ###   ########.fr       */
+/*   Updated: 2020/08/03 16:17:54 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	execute_parent
 	cmd = (t_command *)element->content;
 	if (cmd->separator == PIPE)
 	{
-		g_process = 1;
+		g_process += 1;
 		create_process(data, element->next, p_fd, c_fd);
 	}
 	else

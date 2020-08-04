@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 14:09:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/08/03 15:55:01 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/08/04 16:09:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_strdup_except(const char *s1, int i)
 	return (s2);
 }
 
-void	remove_backslash(char **str)
+void	remove_backslash(char **str, t_command *cmd)
 {
 	int		i;
 	int		j;
@@ -50,16 +50,19 @@ void	remove_backslash(char **str)
 		i = 0;
 		s_quote = 0;
 		d_quote = 0;
-		while (str[j][i])
+		if (!cmd->was_in_quote[j])
 		{
-			check_quotes(str[j][i], &s_quote, &d_quote);
-			if (str[j][i] == '\\' && !s_quote && !d_quote)
+			while (str[j][i])
 			{
-				tmp = ft_strdup_except(str[j], i);
-				ft_strdel(&str[j]);
-				str[j] = tmp;
+				check_quotes(str[j][i], &s_quote, &d_quote);
+				if (str[j][i] == '\\' && !s_quote && !d_quote)
+				{
+					tmp = ft_strdup_except(str[j], i);
+					ft_strdel(&str[j]);
+					str[j] = tmp;
+				}
+				i++;
 			}
-			i++;
 		}
 		j++;
 	}

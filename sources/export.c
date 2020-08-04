@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 16:19:09 by memartin          #+#    #+#             */
-/*   Updated: 2020/07/16 14:20:22 by memartin         ###   ########.fr       */
+/*   Updated: 2020/08/04 16:34:21 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ static void		add_new_var_to_env
 	char		*value;
 
 	key = ft_substr(arg, 0, i);
+	if (arg[i] == '\0' && is_key_exist_check(data, key))
+	{
+		if (key)
+			free(key);
+		return ;
+	}
 	value = ft_substr(arg, i + 1 + plus, ft_strlen(arg) - i - 1);
 	if (is_key_exist(data, key, value, plus))
 		return ;

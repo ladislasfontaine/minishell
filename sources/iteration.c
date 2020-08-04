@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 19:02:13 by lafontai          #+#    #+#             */
-/*   Updated: 2020/08/03 15:55:29 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/08/04 16:11:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	command_router(t_minishell *data, t_command *command)
 {
 	char	*cmd;
 
-	remove_backslash(command->args);
+	remove_backslash(command->args, command);
 	cmd = command->args[0];
 	if (!cmd)
 		return ;
@@ -36,7 +36,7 @@ int		command_router_no_process(t_minishell *data, t_command *command)
 {
 	char	*cmd;
 
-	remove_backslash(command->args);
+	remove_backslash(command->args, command);
 	cmd = command->args[0];
 	if (!cmd)
 		return (0);

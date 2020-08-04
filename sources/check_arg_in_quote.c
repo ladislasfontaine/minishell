@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/30 15:35:14 by memartin          #+#    #+#             */
-/*   Updated: 2020/08/03 15:19:55 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/08/04 16:07:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	*create_tab(t_command *cmd)
 
 	i = 0;
 	cmd->nb_arg = w_count(cmd->cmd, ' ');
+	//ft_printf("nb_arg : %d\n", cmd->nb_arg);
 	if (!(tab = (int*)malloc(sizeof(int) * cmd->nb_arg + 1)))
 		return (NULL);
 	while (i < cmd->nb_arg)

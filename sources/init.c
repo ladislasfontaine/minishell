@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 16:09:21 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/30 15:39:17 by memartin         ###   ########.fr       */
+/*   Updated: 2020/08/04 17:15:36 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		init_command(t_command **command, int sep, char *sub, t_list *previous)
 	(*command)->chevron = 0;
 	(*command)->out = 0;
 	(*command)->in = 0;
+	(*command)->remove = 0;
 	(*command)->previous = (previous) ? (t_command *)previous->content : NULL;
 	return (0);
 }

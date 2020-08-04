@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 14:09:09 by lafontai          #+#    #+#             */
-/*   Updated: 2020/08/04 16:09:21 by user42           ###   ########.fr       */
+/*   Updated: 2020/08/04 17:20:20 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	remove_backslash(char **str, t_command *cmd)
 					ft_strdel(&str[j]);
 					str[j] = tmp;
 				}
-				i++;
+				if (str[j][i])
+					i++;
 			}
 		}
 		j++;

@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 09:49:07 by lafontai          #+#    #+#             */
-/*   Updated: 2020/08/04 16:31:22 by user42           ###   ########.fr       */
+/*   Updated: 2020/08/04 17:15:06 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct	s_command
 	int					chevron;
 	int					in;
 	int					out;
+	int					remove;
 	int					fd[2];
 	struct s_command	*previous;
 }				t_command;

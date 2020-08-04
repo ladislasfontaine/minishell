@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 22:00:30 by lafontai          #+#    #+#             */
-/*   Updated: 2020/08/03 15:20:52 by lafontai         ###   ########.fr       */
+/*   Updated: 2020/08/04 17:44:12 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,11 @@ static int	w_len(const char *str, char c, int pos)
 			&& str[pos + d.i] != '<') || esc || d.s_quote || d.d_quote))
 	{
 		check_quotes(str[pos + d.i], &d.s_quote, &d.d_quote);
-		if (!d.s_quote && !d.d_quote && str[pos + d.i] != '\''
-			&& str[pos + d.i] != '\"')
-			d.count++;
-		else if ((d.s_quote && str[pos + d.i] != '\'')
-				|| (d.d_quote && str[pos + d.i] != '\"'))
-			d.count++;
 		check_escape(str, pos + d.i, &esc);
+		d.count++;
 		d.i++;
 	}
-	return (d.count);
+	return (d.count + 1);
 }
 
 void		split_words(char const *s, t_split *d)
@@ -132,12 +127,12 @@ char		**ft_split_special_redir(char const *s, char c)
 	while (s[d.i])
 	{
 		if ((d.count && s[d.i] != c)
-		|| (s[d.i] != c && s[d.i] != '>' && s[d.i] != '<'))
+		|| (s[d.i] && s[d.i] != c && s[d.i] != '>' && s[d.i] != '<'))
 		{
 			split_words(s, &d);
 			d.k = 0;
 		}
-		else if (!d.count && (s[d.i] == '>' || s[d.i] == '<'))
+		else if (s[d.i] && !d.count && (s[d.i] == '>' || s[d.i] == '<'))
 			split_chevrons(s, &d);
 		else
 			d.i++;

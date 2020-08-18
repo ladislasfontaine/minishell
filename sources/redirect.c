@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 11:02:04 by lafontai          #+#    #+#             */
-/*   Updated: 2020/07/30 17:05:03 by memartin         ###   ########.fr       */
+/*   Updated: 2020/08/18 11:43:27 by memartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static int		redirection_router_norm
 		if (check_first_chevron(data, cmd->args[i]))
 			return (0);
 	}
+	if (cmd->out == -1 || cmd->in == -1)
+		return (0);
 	return (1);
 }
 

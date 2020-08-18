@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/30 15:35:14 by memartin          #+#    #+#             */
-/*   Updated: 2020/08/04 16:07:16 by user42           ###   ########.fr       */
+/*   Updated: 2020/08/18 11:21:36 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int	*create_tab(t_command *cmd)
 
 	i = 0;
 	cmd->nb_arg = w_count(cmd->cmd, ' ');
-	//ft_printf("nb_arg : %d\n", cmd->nb_arg);
 	if (!(tab = (int*)malloc(sizeof(int) * cmd->nb_arg + 1)))
 		return (NULL);
 	while (i < cmd->nb_arg)
@@ -71,7 +70,7 @@ static int	*fill_tab(t_command *cmd, int *tab)
 			i++;
 		if (cmd->cmd[i] == '\'' || cmd->cmd[i] == '\"')
 		{
-			tab[j] = 1;
+			tab[j] = (cmd->cmd[i] == '\'') ? 1 : 2;
 			check_quotes(cmd->cmd[i++], &d.s_quote, &d.d_quote);
 			while (cmd->cmd[i] && (d.s_quote || d.d_quote))
 				check_quotes(cmd->cmd[i++], &d.s_quote, &d.d_quote);

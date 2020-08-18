@@ -6,7 +6,7 @@
 #    By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/15 15:08:42 by lafontai          #+#    #+#              #
-#    Updated: 2020/07/30 16:07:30 by memartin         ###   ########.fr        #
+#    Updated: 2020/08/18 11:11:31 by lafontai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ SRCS	= $(addprefix $(FOLDER), \
 			minishell.c \
 			init.c \
 			iteration.c \
+			backslash.c \
 			parser.c \
 			variable.c \
 			exec.c \

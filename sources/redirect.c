@@ -6,7 +6,7 @@
 /*   By: lafontai <lafontai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/23 11:02:04 by lafontai          #+#    #+#             */
-/*   Updated: 2020/08/18 11:43:27 by memartin         ###   ########.fr       */
+/*   Updated: 2020/08/18 11:51:33 by lafontai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int				create_redirection
 	if ((fd = open(cmd->args[i + 1], flags, 0644)) < 0)
 	{
 		print_error_exec_errno(cmd->args[i + 1], strerror(errno));
-		data->stop = 1;
+		data->exit = 1;
 	}
 	if ((ft_strequ(cmd->args[i], ">") ||
 		ft_strequ(cmd->args[i], ">>")) && cmd->out)
